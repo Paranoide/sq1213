@@ -34,7 +34,17 @@
 	\end{itemize}
 	\subsection*{(b)}
 	\begin{itemize}
-		\item 
+		\item \textbf{Sicherheit}: Es könnten Dialog-Abfragen implementiert werden, sodass nicht jede beliebige Datei (versehentlich) überschrieben werden kann.
+		\item \textbf{Wartbarkeit}: Javadoc erhöht die Wartbarkeit sowohl für den/die ursprünglichen Programmierer als auch für weitere Leute, die sich in den Code einarbeiten müssen.
+		\item \textbf{Benutzbarkeit/Robustheit}: Hinsichtlich eines Text-Editors sollten verschiedene Text-Kodierungen unterstützt werden.
+		\item \textbf{Effizienz}: Steigerung der Effizienz durch Optimierung der Methoden einzelner Aktionen (laden, speichern, ...).
+	\end{itemize}
+	\subsection*{(c)}
+	\begin{itemize}
+		\item \textbf{Syntaxfehler:} Das Programm ließ sich nicht kompilieren, weil die JAVA-Syntax nicht eingehalten wurde.
+		\item \textbf{Semantischer Fehler}: Diverse \texttt{NullPointerException}s, wenn beim \texttt{JFileChooser} auf "`Abbrechen"' geklickt wurde, wodurch \texttt{null} an verschiedene Methoden weitergeleitet wurde.
+		\item \textbf{Semantischer Fehler}: Es wurde beim Beenden/Laden/Neu nicht immer darauf hingewiesen, dass das aktuelle Dokument geändert wurde, weil die Listener nicht korrekt konfiguriert wurden.
+		\item \textbf{Optimierungsfehler}: Beim Versuch eine Methode kürzer und schneller (genauer: if-Bedingungen zusammenzufassen) zu machen, machte die Methode in den meisten Fällen gar nichts mehr.
 	\end{itemize}
   \section*{Aufgabe 1.2}
   \begin{enumerate}[(a)]
@@ -45,7 +55,3 @@
           \end{enumerate}
   \end{enumerate}
 \end{document}
-
-
-
-
