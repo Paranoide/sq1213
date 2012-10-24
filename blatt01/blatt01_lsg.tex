@@ -37,7 +37,7 @@
 		\item \textbf{Sicherheit}: Es könnten Dialog-Abfragen implementiert werden, sodass nicht jede beliebige Datei (versehentlich) überschrieben werden kann.
 		\item \textbf{Wartbarkeit}: Javadoc erhöht die Wartbarkeit sowohl für den/die ursprünglichen Programmierer als auch für weitere Leute, die sich in den Code einarbeiten müssen.
 		\item \textbf{Benutzbarkeit/Robustheit}: Hinsichtlich eines Text-Editors sollten verschiedene Text-Kodierungen unterstützt werden.
-		\item \textbf{Effizienz}: Steigerung der Effizienz durch Optimierung der Methoden einzelner Aktionen (laden, speichern, ...).
+		\item \textbf{Effizienz}: Steigerung der Effizienz durch Optimierung der Methoden einzelner Aktionen (laden, speichern, usw.).
 	\end{itemize}
 	\subsection*{(c)}
 	\begin{itemize}
@@ -49,14 +49,28 @@
 	\subsection*{(d)}
 	Die Fehlerklassifikation dient zum einen einer Prioritätseinteilung. So sind beispielsweise Syntaxfehler eher zu beheben als semantische, weil bei fehlerhafter Syntax in der Regel gar nichts funktioniert (Beispiel in JAVA: Der Code lässt sich nicht kompilieren).\\
 	Zum anderen dient die Klassifikation der Gruppenzuweisung. So können Optimierungsfehler von Teams behoben werden, die sich in der Optimierung auskennen, während Spezifikationsfehler oder Parallelitätsfehler an entsprechende andere Teams weitergeleitet werden können.
+  Des Weiteren können die QS-Prozesse bei folgenden Produkten verbessert werden, da man mehr Kontrolle an h"aufigen Fehlerquellen erwirken kann.
 	\subsection*{(e)}
 	% TODO
-  \section*{Aufgabe 1.2}
+  \section{Aufgabe 1.2}
   \begin{enumerate}[(a)]
     \item \begin{enumerate}[1.]
-            \item Qualitätsmaß : MTFB
-            \item Qualitätsmerkmal: Zuverlässigkeit
-            \item Ausprägung: $>$ 500s
+            \item \textbf{Qualit"atsma\ss :} meantime between failures (MTFB)
+            \item \textbf{Qualit"atsmerkmal}: Zuverl"assigkeit
+            \item \textbf{Auspr"agung:} $>$ 500s
           \end{enumerate}
+    \item \begin{enumerate}[1.]
+            \item \textbf{Qualit"atsmerkmal:} Benutzbarkeit (Usability)
+            \item \textbf{Qualit"atsteilmerkmal:} Verst"andlichkeit
+            \item \textbf{Qualit"atsma\ss :} Befragung von Testnutzern
+            \item \textbf{Auspr"agung:} Skala von 1 - 10 (wobei 1 = unverst"andlich und 10 = intuitiv)
+          \end{enumerate}
+    \item $\textbf{Verf"ugbarkeit} = \frac{MTBF}{MTBF + MTTR}$\\
+          mit $MTBF = \frac{Betriebsdauer}{Fehleranzahl}$\\
+          $MTBF = \frac{(t2 - t1) + (t4 - t3) + (t6 - t5)}{3}$\\
+          $MTBF = \frac{23}{3} = 7.67$\\
+          daraus folgt:\\
+          $Verf"ugbarkeit = \frac{7.67}{7.67 + ((t3 - t2) + (t5 - t4))}$\\
+          $Verf"ugbarkeit = \frac{7.67}{12.67} = 0.605$
   \end{enumerate}
 \end{document}
