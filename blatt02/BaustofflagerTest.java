@@ -1,6 +1,6 @@
 package sq1213.blatt02;
 
-import static sq1213.blatt02.Baustofflager.Material;
+import sq1213.blatt02.Baustofflager.Material;
 import static sq1213.blatt02.Baustofflager.Material.*;
 
 /**
@@ -9,16 +9,22 @@ import static sq1213.blatt02.Baustofflager.Material.*;
  */
 public class BaustofflagerTest
 {
+    /**
+     * Die gute, alte main...
+     * @param args Kommandozeilen-Krams
+     */
     public static void main(String[] args)
     {
         Baustofflager bsl = new Baustofflager();
         boolean s;
         
         // Testfaelle
-        Material[] materials = {TON, MARMOR, GRANIT, TON, MARMOR, GRANIT};
-        int[] laengen = {17, 50, 68, 1, 50, 50};
-        int[] mengen  = {1, 3456, 9999, 1, 100000, 1};
-        String[] ids  = {"F1232", "FABCDE2", "Fa1348i9ujk2", "F1232", "F1232", "ABC"};
+        Material[] materials = {TON, MARMOR, GRANIT, /*STEIN,*/ TON, MARMOR,
+                                GRANIT, TON, MARMOR, GRANIT};
+        int[] laengen = {17, 68, 17, /*68,*/ 16, 69, 17, 68, 17, 68};
+        int[] mengen  = {1, 9999, 1, /*9999,*/ 1, 9999, 0, 10000, 1, 9999};
+        String[] ids  = {"F12", "F22", "F32", /*"F42",*/ "F52",
+                         "F62", "F72", "F82", "A92", "F93"};
         
         for (int t = 0; t < materials.length; t++)
         {
