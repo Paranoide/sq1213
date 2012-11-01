@@ -8,6 +8,9 @@ import java.util.LinkedList;
  */
 public class Baustofflager
 {
+    /**
+     * Material-Konstanten
+     */
     public static enum Material
     {
         TON("Ton"),
@@ -30,12 +33,22 @@ public class Baustofflager
     
     private LinkedList<Fliese> lager;
     
+    /**
+     * Macht ein neues Lager auf
+     */
     public Baustofflager()
     {
         this.lager = new LinkedList<>();
     }
     
-    
+    /**
+     * Die Schnittstelle!
+     * @param mat Material
+     * @param laenge Laenge
+     * @param menge Menge
+     * @param id Auftragsnummer
+     * @return true genau dann, wenn alle Werte gueltig waren
+     */
     public boolean registrierung(Material mat, int laenge, int menge, String id)
     {
         boolean success = true;
@@ -68,7 +81,9 @@ public class Baustofflager
     }
     
     
-    
+    /**
+     * Hilfsklasse
+     */
     private class Fliese
     {
         private Material mat;
