@@ -1,0 +1,46 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage{ulem}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{german}
+\usepackage{graphicx}
+\usepackage{epic}
+\usepackage{enumerate}
+\usepackage [latin1]{inputenc}
+\geometry{a4paper,left=25mm,right=25mm,top=10mm,bottom=15mm}
+\renewcommand{\baselinestretch}{1.5}
+\newcommand{\ol}{\overline}
+\newcommand{\makeline}{\hrule\vspace{5pt}}
+\newcommand{\ip}[2]{\left< #1, #2 \right>}
+
+\title{2. Übungsblatt zu Software Qualität}
+\author{Michel Meyer, Manuel Schwarz}
+
+\begin{document}
+  \maketitle
+
+  \section*{Aufgabe 2.1}
+	\subsection*{(a)}
+	\subsection*{(b)}
+	\section*{Aufgabe 2.2}
+  \subsection*{(a)}
+  Die folgende Tabelle zeigt die gültigen Äquivalenzklassen (GÄ) und die ungültigen Äquivalenzklassen (UÄ):
+  \begin{center}
+		\begin{tabular}[h]{|l|l|p{4cm}|p{4cm}|}\hline
+			-               & Vorgabe                 & GÄ                                                                  & UÄ                                                                  \\\hline
+			Material        & Ton, Marmor, Granit     & \parbox{4cm}{$x$ = "`Ton"' \\ $x$ = "`Marmor"' \\ $x$ = "`Granit"'} & \parbox{4cm}{$x$ ist nicht "`Ton"',\\ "`Marmor"' oder "`Granit"'}   \\\hline
+			Länge           & $17cm \leq x \leq 68cm$ &    &    \\\hline
+			Menge           &         &    &    \\\hline
+			Auftragsnummer  &         &    &    \\\hline
+		\end{tabular}
+	\end{center}
+	Siehe da
+  \subsection*{(b)}
+  \subsection*{(c)}
+\end{document}
