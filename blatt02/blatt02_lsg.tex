@@ -27,7 +27,7 @@
 
   \section*{Aufgabe 2.1}
 	\subsection*{(a)}
-	Das magische Dreieck veranschaulicht die Beziehung zwischen den Komponenten \textbf{Qualität}, \textbf{Kosten} und \textbf{Zeit} eines (Software-)Projektes. Soll in eine dieser Komponenten optimiert werden (d.h. höhere Qualität, weniger Kosten oder weniger Zeit), so muss mindestens eine der beiden anderen Komponenten vernachlässigt werden.\\
+	Das magische Dreieck veranschaulicht die Beziehung zwischen den Komponenten \textbf{Qualität}, \textbf{Kosten} und \textbf{Zeit} eines (Software-)Projektes. Soll in eine dieser Komponenten optimiert werden (d.h.\ höhere Qualität, weniger Kosten oder weniger Zeit), so muss mindestens eine der beiden anderen Komponenten vernachlässigt werden.\\
 	Veranschaulicht wird diese Beziehung meist durch drei orthogonale Achsen, die jeweils für eine der drei Komponenten stehen und auf denen ein Punkt die "`Höhe"' der Komponente symbolisiert. Diese Punkte können nun verschieden angepasst werden, allerdings muss die dreieckige Fläche, die die drei Punkte aufspannen, immer gleich bleiben (die Fläche steht für die verfügbaren Gesamtressourcen).
 	\subsection*{(b)}
 	Beispiele:
@@ -42,13 +42,30 @@
   \begin{center}
 		\begin{tabular}[h]{|l|p{4,8cm}|p{3,5cm}|p{4,5cm}|}\hline
 			-               & Vorgabe                                                    & GÄ                                                                  & UÄ                                                                  \\\hline
-			Material        & \parbox{5cm}{$x \in$\\ \{"`Ton"', "`Marmor"', "`Granit"'\}}& \parbox{4cm}{$x_1$ = "`Ton"' \\ $x_2$ = "`Marmor"' \\ $x_3$ = "`Granit"'} & \parbox{5cm}{$x_7$ ist nicht "`Ton"',\\ "`Marmor"' oder "`Granit"'}   \\\hline
-			Länge           & $17cm \leq x \leq 68cm$                                    & $17cm \leq x_4 \leq 68cm$                                             & \parbox{5cm}{$x_8 < 17cm$ \\ $x_9 > 68cm$}                              \\\hline
-			Menge           & $1 \leq x \leq 9999$                                       & $1 \leq x_5 \leq 9999$                                                & \parbox{5cm}{$x_{10} < 1$ \\ $x_{11} > 9999$}                                 \\\hline
-			Auftragsnummer  & \parbox{4cm}{Beginnt mit "`F"',\\endet mit "`2"'}          & \parbox{4cm}{$x_6$ beginnt mit "`F"'\\ und endet mit "`2"'}                   & \parbox{5cm}{$x_{12}$ beginnt nicht mit "`F"',\\ $x_{13}$ endet nicht mit "`2"'} \\\hline
+			Material        & \parbox{5cm}{$x \in$\\ \{"`Ton"', "`Marmor"', "`Granit"'\}}& \parbox{4cm}{$A_1$ = "`Ton"' \\ $A_2$ = "`Marmor"' \\ $A_3$ = "`Granit"'} & \parbox{5cm}{$A_7$ ist nicht "`Ton"',\\ "`Marmor"' oder "`Granit"'}   \\\hline
+			Länge           & $17cm \leq x \leq 68cm$                                    & $17cm \leq A_4 \leq 68cm$                                             & \parbox{5cm}{$A_8 < 17cm$ \\ $A_9 > 68cm$}                              \\\hline
+			Menge           & $1 \leq x \leq 9999$                                       & $1 \leq A_5 \leq 9999$                                                & \parbox{5cm}{$A_{10} < 1$ \\ $A_{11} > 9999$}                                 \\\hline
+			Auftragsnummer  & \parbox{4cm}{Beginnt mit "`F"',\\endet mit "`2"'}          & \parbox{4cm}{$A_6$ beginnt mit "`F"'\\ und endet mit "`2"'}                   & \parbox{5cm}{$A_{12}$ beginnt nicht mit "`F"',\\ $A_{13}$ endet nicht mit "`2"'} \\\hline
 		\end{tabular}
 	\end{center}
-	Siehe da
+
   \subsection*{(b)}
+  \footnotesize
+  \begin{center}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}\hline
+      Testfälle           & 1               & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9   & 10  \\\hline\hline
+      getestete Ä-Klassen & A1, A4, A5, A6  & A2  & A3  & A7  & A8  & A9  & A10 & A11 & A12 & A13 \\\hline
+      Fliesenart          & Ton   & Marmor & Granit    & Stein & Ton & Marmor & Granit & Ton & Marmor & Granit \\\hline
+      Kantenlänge         & 17              & 68  & 17  & 68  & 16  & 69  & 17  & 68  & 17  & 68  \\\hline
+      Liefermenge         & 1             & 9999  & 1 & 9999  & 1 & 9999  & 0 & 10000 & 1 & 9999  \\\hline
+      Auftragsnummer      & F12             & F22 & F32 & F42 & F52 & F62 & F72 & F82 & A92 & F93 \\\hline
+    \end{tabular}
+  \end{center}
+  \normalsize
+  Eine obere Grenze für die Kantenlänge liegt jeweils bei den Testfällen 2, 4, 5, 8 und 10 vor.\\
+  Eine untere Grenze für die Kantenlänge liegt dementsprechend bei den Testfällen 1, 3, 6, 7 und 9 vor.\\
+  Die obere Grenze für die Liefermenge liegt bei den Testfällen 2, 4, 6, 7 und 10 vor.\\
+  Schließlich liegt die untere Grenze für die Liefermenge bei den Testfällen 1, 3, 5, 8 und 9 vor.
+
   \subsection*{(c)}
 \end{document}
