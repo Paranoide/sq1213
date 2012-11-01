@@ -12,6 +12,7 @@
 \usepackage{graphicx}
 \usepackage{epic}
 \usepackage{enumerate}
+\usepackage{tabu}
 \usepackage [latin1]{inputenc}
 \geometry{a4paper,left=25mm,right=25mm,top=10mm,bottom=15mm}
 \renewcommand{\baselinestretch}{1.5}
@@ -52,14 +53,14 @@
   \subsection*{(b)}
   \footnotesize
   \begin{center}
-    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}\hline
+    \begin{tabu}{|l||c|c|c|[1pt]c|c|c|c|c|c|c|}\hline
       Testfälle           & 1               & 2   & 3   & 4   & 5   & 6   & 7   & 8   & 9   & 10  \\\hline\hline
       getestete Ä-Klassen & A1, A4, A5, A6  & A2  & A3  & A7  & A8  & A9  & A10 & A11 & A12 & A13 \\\hline
       Fliesenart          & Ton   & Marmor & Granit    & Stein & Ton & Marmor & Granit & Ton & Marmor & Granit \\\hline
       Kantenlänge         & 17              & 68  & 17  & 68  & 16  & 69  & 17  & 68  & 17  & 68  \\\hline
       Liefermenge         & 1             & 9999  & 1 & 9999  & 1 & 9999  & 0 & 10000 & 1 & 9999  \\\hline
       Auftragsnummer      & F12             & F22 & F32 & F42 & F52 & F62 & F72 & F82 & A92 & F93 \\\hline
-    \end{tabular}
+    \end{tabu}
   \end{center}
   \normalsize
   Eine obere Grenze für die Kantenlänge liegt jeweils bei den Testfällen 2, 4, 5, 8 und 10 vor.\\
