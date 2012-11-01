@@ -32,12 +32,12 @@
   \subsection*{(a)}
   Die folgende Tabelle zeigt die gültigen Äquivalenzklassen (GÄ) und die ungültigen Äquivalenzklassen (UÄ):
   \begin{center}
-		\begin{tabular}[h]{|l|l|p{4cm}|p{4cm}|}\hline
-			-               & Vorgabe                 & GÄ                                                                  & UÄ                                                                  \\\hline
-			Material        & Ton, Marmor, Granit     & \parbox{4cm}{$x$ = "`Ton"' \\ $x$ = "`Marmor"' \\ $x$ = "`Granit"'} & \parbox{4cm}{$x$ ist nicht "`Ton"',\\ "`Marmor"' oder "`Granit"'}   \\\hline
-			Länge           & $17cm \leq x \leq 68cm$ &    &    \\\hline
-			Menge           &         &    &    \\\hline
-			Auftragsnummer  &         &    &    \\\hline
+		\begin{tabular}[h]{|l|p{4,8cm}|p{3,5cm}|p{4,5cm}|}\hline
+			-               & Vorgabe                                                    & GÄ                                                                  & UÄ                                                                  \\\hline
+			Material        & \parbox{5cm}{$x \in$\\ \{"`Ton"', "`Marmor"', "`Granit"'\}}& \parbox{4cm}{$x_1$ = "`Ton"' \\ $x_2$ = "`Marmor"' \\ $x_3$ = "`Granit"'} & \parbox{5cm}{$x_7$ ist nicht "`Ton"',\\ "`Marmor"' oder "`Granit"'}   \\\hline
+			Länge           & $17cm \leq x \leq 68cm$                                    & $17cm \leq x_4 \leq 68cm$                                             & \parbox{5cm}{$x_8 < 17cm$ \\ $x_9 > 68cm$}                              \\\hline
+			Menge           & $1 \leq x \leq 9999$                                       & $1 \leq x_5 \leq 9999$                                                & \parbox{5cm}{$x_{10} < 1$ \\ $x_{11} > 9999$}                                 \\\hline
+			Auftragsnummer  & \parbox{4cm}{Beginnt mit "`F"',\\endet mit "`2"'}          & \parbox{4cm}{$x_6$ beginnt mit "`F"'\\ und endet mit "`2"'}                   & \parbox{5cm}{$x_{12}$ beginnt nicht mit "`F"',\\ $x_{13}$ endet nicht mit "`2"'} \\\hline
 		\end{tabular}
 	\end{center}
 	Siehe da
