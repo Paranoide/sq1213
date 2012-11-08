@@ -28,6 +28,57 @@
 
   \section*{Aufgabe 3.1}
   \subsection*{(a)}
+  \begin{itemize}
+    \item{\textbf{Testfall 1:}} zu wenig Geld eingeworfen, min. 1x Geld nachwerfen,
+      Getränk wählen, evtl. Rückgeld erhalten
+    \item{\textbf{Testfall 2:}} zu wenig Geld eingeworfen, Geldrückgabehebel ziehen
+    \item{\textbf{Testfall 3:}} genug Geld eingeworfen, Geldrückgabehebel ziehen
+  \end{itemize}
+
+  \subsection*{(b)}
+  \subsubsection*{Zustände}
+  \begin{itemize}
+    \item{\textbf{1:}} Bereit
+    \item{\textbf{2:}} Geldeinwurf erwarten
+    \item{\textbf{3:}} Getränkeauswahl erwarten
+    \item{\textbf{4:}} Einschenken
+    \item{\textbf{5:}} Geld zurückgeben
+    \item{\textbf{6:}} Fehlverhalten
+  \end{itemize}
+
+  \subsubsection*{Aktionen}
+  \begin{itemize}
+    \item{\textbf{1:}} Geld zwischenlagern
+    \item{\textbf{2:}} Geld zurückgeben
+    \item{\textbf{3:}} Getränk ausschenken
+  \end{itemize}
+
+  \begin{tabular}[h]{|l|c|c|c|c|c|c|}\hline
+                                      & (1)  & (2)  & (3)  & (4)  & (5)  & (6) \\\hline
+    Geld einwerfen [Geld $<$ Preis]   & 2 / 1& 2 / 1& 3 /  & 4 /  & 5 /  & 6 / \\\hline
+    Geld einwerfen [Geld $\geq$ Preis]& 3 / 1& 3 / 1& 3 / 1& 4 / 1& 5 /  & 6 / \\\hline
+    Geldrückgabehebel ziehen          & 1 /  & 1 / 2& 1 / 2& 4 /  & 5 /  & 6 / \\\hline
+    Getränk wählen                    & 1 /  & 2 /  & 4 / 3& 4 /  & 5 /  & 6 / \\\hline
+    eingeschenkt                      & 6 /  & 6 /  & 6 /  & 5 /  & 6 /  & 6 / \\\hline
+    Rückgeld ausgeben                 & 6 /  & 6 /  & 6 /  & 6 /  & 1 / 2& 6 / \\\hline
+  \end{tabular}
+
+  \subsection*{(c)}
+  \includegraphics[width=450px]{pictures/aufg3_1.png}
+
+  \section*{Aufgabe 3.2}
+  \subsection*{(a)}
+  
+
+  \subsection*{(b)}
+
+  \section*{Aufgabe 3.3}
+  Wird zur Repräsentation der Fliesenarten eine JAVA-Aufzählung (\texttt{enum}) genutzt,
+  so können Testfälle mit Fliesen aus einem anderen Material als dort definiert sind
+  direkt weggelassen werden, da der Test schon im Vorfeld nicht kompilieren würde.\\
+  Ein solcher Mechanismus wird in der Qualitätssicherung auch als implizite
+  Qualitätssicherungsmaßnahme bezeichnet.
+
 
   
 
