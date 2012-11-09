@@ -15,7 +15,7 @@
 \usepackage{tabu}
 \usepackage [latin1]{inputenc}
 \geometry{a4paper,left=25mm,right=25mm,top=10mm,bottom=15mm}
-\renewcommand{\baselinestretch}{1.5}
+%\renewcommand{\baselinestretch}{1.5}
 \newcommand{\ol}{\overline}
 \newcommand{\makeline}{\hrule\vspace{5pt}}
 \newcommand{\ip}[2]{\left< #1, #2 \right>}
@@ -67,10 +67,74 @@
   \includegraphics[width=450px]{pictures/aufg3_1.png}
 
   \section*{Aufgabe 3.2}
-  \subsection*{(a)}
-  
+  \subsection*{(a) Ursache-Wirkungs-Graph}
+  \subsubsection*{Ursachen}
+  \begin{itemize}
+    \item{\textbf{U1:}} Neukunde
+    \item{\textbf{U2:}} auf schwarzer Liste
+    \item{\textbf{U3:}} zuverlässiger Kunde
+  \end{itemize}
 
-  \subsection*{(b)}
+  \subsubsection*{Wirkungen}
+  \begin{itemize}
+    \item{\textbf{W1:}} Kredit ablehnen
+    \item{\textbf{W2:}} negatives Anschreiben
+    \item{\textbf{W3:}} Kredit bewilligen
+    \item{\textbf{W4:}} positives Anschreiben
+    \item{\textbf{W5:}} auf schwarzer Liste eintragen
+    \item{\textbf{W6:}} Geschäftsbeziehung beenden
+  \end{itemize}
+
+  \includegraphics[width=400px]{pictures/aufg3_2.png}
+
+  \subsection*{(b) Entscheidungstabelle}
+
+  \subsubsection*{Beispiel für W1:}
+  \begin{itemize}
+    \item Z1 = 1 oder Z2 = 1
+    \item setze Z2 = 1 und Z1 = 0
+    \item für Z2: U1 = 0 und U3 = 0
+    \item für Z1: U1 = 0 und U2 = 0
+  \end{itemize}
+  Eventuell könnte man die Fälle in denen U1 = 1 und U3 = 1 sind direkt ignorieren,
+  da ein Neukunde kein zuverlässiger Kunde sein kann.
+
+  \begin{tabular}[h]{|c||c|c|c|c|c|c|c|c|}\hline
+       & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\\hline\hline
+    U1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 \\\hline
+    U2 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\\hline
+    U3 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 \\\hline\hline
+    Z1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 \\\hline
+    Z2 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\hline
+    Z3 & 0 & 0 & 0 & 0 & 1 & 1 & 0 & 0 \\\hline
+    Z4 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\\hline\hline
+    W1 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 \\\hline
+    W2 & 1 & 0 & 1 & 0 & 0 & 0 & 1 & 1 \\\hline
+    W3 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 0 \\\hline
+    W4 & 0 & 1 & 0 & 1 & 1 & 1 & 0 & 0 \\\hline
+    W5 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\hline
+    W6 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\\hline
+  \end{tabular}\\
+  Aus der obigen Tabelle kann man nun die Spalten 1 und 3, 2 und 4, 5 und 6 sowie 7 und 8
+  durch die Optimierung mit Don't Care-Werten (Konsolidierung) zusammenfassen.\\
+  Das ergibt dann folgendes Ergebnis (Konsolidierte Entscheidungstabelle):
+
+  \begin{tabular}[h]{|c||c|c|c|c|}\hline
+       & 1 & 2 & 3 & 4 \\\hline\hline
+    U1 & 0 & 0 & 1 & 1 \\\hline
+    U2 & - & - & 0 & 1 \\\hline
+    U3 & 0 & 1 & - & - \\\hline\hline
+    Z1 & 0 & 0 & 0 & 1 \\\hline
+    Z2 & 1 & 0 & 0 & 0 \\\hline
+    Z3 & 0 & 0 & 1 & 0 \\\hline
+    Z4 & 0 & 1 & 0 & 0 \\\hline\hline
+    W1 & 1 & 0 & 0 & 1 \\\hline
+    W2 & 1 & 0 & 0 & 1 \\\hline
+    W3 & 0 & 1 & 1 & 0 \\\hline
+    W4 & 0 & 1 & 1 & 0 \\\hline
+    W5 & 1 & 0 & 0 & 0 \\\hline
+    W6 & 1 & 0 & 0 & 0 \\\hline
+  \end{tabular}
 
   \section*{Aufgabe 3.3}
   Wird zur Repräsentation der Fliesenarten eine JAVA-Aufzählung (\texttt{enum}) genutzt,
