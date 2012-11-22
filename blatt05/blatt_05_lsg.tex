@@ -100,6 +100,12 @@
   \subsection*{Unvollständige Evaluation}
   \begin{tabular}[c]{|c|c|c|c|c|c|c|c|}\hline
        & A & B & C & D & A \&\& B & C \&\& D & (A \&\& B) || (C \&\& D)\\\hline\hline
-     1 & f & f & f & f & f        & f        & f                       \\\hline
+     1 & f &   & f &   & f        & f        & f                       \\\hline
+     2 & f &   & w & f & f        & f        & f                       \\\hline
+     3 & f &   & w & w & f        & w        & w                       \\\hline
+     4 & w & f & f &   & f        & f        & f                       \\\hline
+     5 & w & f & w & f & f        & f        & f                       \\\hline
+     6 & w & f & w & w & f        & w        & w                       \\\hline
+     7 & w & w &   &   & w        &          & w                       \\\hline
   \end{tabular}
 \end{document}
