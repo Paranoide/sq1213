@@ -51,6 +51,39 @@
   \end{align*}
 
 
-  \subsection*{(c)}
+  \subsection*{(c) Bedeutung von $Z(G)$}
+  Die Zahl sagt im allgemeinen etwas über die Komplexität der betrachteten
+  Funktion aus, indem die Zahl binärer Verzweigungen gezählt wird. Weiterhin
+  liefert sie direkt die Anzahl der maximal nötigen Testfälle und der
+  Elementarpfade, da sie gleich der maximalen Anzahl linear unabhängiger
+  gerichteter Zyklen entspricht.
 
+  \subsection*{(d) Elementarpfade}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}\hline
+    Testfälle / Kanten & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12\\\hline\hline
+    I   &1&0&1&0&1&1&1&1&0&0&1&1\\\hline
+    II  &1&1&0&1&0&1&1&1&1&1&0&1\\\hline
+    III &1&0&1&0&1&0&0&1&0&0&1&1\\\hline
+    IV  &1&1&0&1&0&0&0&1&0&0&1&1\\\hline
+  \end{tabular}
+  \\
+  Testfall I (pos. Exp.): $n_s, n_1, n_3, n_4, n_5, n_4, n_6, n_8, n_f$\\
+  Testfall II (neg. Exp.): $n_s, n_1, n_2, n_4, n_5, n_4, n_6, n_7, n_8, n_f$\\
+  Testfall III (Exp. == 0): $n_s, n_1, n_3, n_4, n_6, n_8, n_f$\\
+  Testfall IV: (unmöglich zu erzeugen):$n_s, n_1, n_2, n_4, n_6, n_8, n_f$\\
+
+  \subsection*{(e) Linearkombination}
+  Testfall I mit positivem Exponenten:
+  \begin{equation*}
+    (1 \cdot I) + (0 \cdot II) + (0 \cdot III) + (0 \cdot IV)
+  \end{equation*}
+
+  \subsection*{(f) Testfälle}
+  \begin{itemize}
+    \item Testfall I: $x = 2$, $n = 2$
+    \item Testfall II: $x = 2$, $n = -2$
+    \item Testfall III: $x = 2$, $n = 0$
+    \item Testfall IV: Lässt sich nicht erzeugen, da die Verzweigungen Abhängigkeiten untereinander haben,
+          die im Widerspruch zu diesem Pfad stehen.
+  \end{itemize}
 \end{document}
