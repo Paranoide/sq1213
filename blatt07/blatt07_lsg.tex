@@ -65,5 +65,51 @@
 			   & (n_{start}, n_{in}, n_1, n_3, n_{out}, n_{final}), \\
 			   & (n_{start}, n_{in}, n_1, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final})\}
 		\end{align*}
-		testet zu allen definierten Variablen alle \textit{p-use}s.
+		testet zu allen definierten Variablen alle \textit{p-uses}.\\
+		Es muss gelten:
+		\begin{enumerate}
+			\item Zu jeder Variablen $x$ und zu jedem Knoten $n_i$ muss für jede Kante $(n_j, n_k) \in dpu(x, n_i)$ ein Pfad existieren, in dem diese Kante vorkommt.
+			\item In dem Pfad, in dem die Kante $(n_j, n_k)$ vorkommt, muss der entsprechende Knoten $n_i$ vorher vorgekommen sein.
+			\item Es muss ein definitionsfreier Pfad von $n_i$ zu $x$ bis zur Kante $(n_j, n_k)$ existieren.
+		\end{enumerate}
+	\subsection*{(d) \textit{All-c-uses}}
+		Die Menge
+		\begin{align*}
+			\{ & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final}), \\
+			   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}), \\
+			   & (n_{start}, n_{in}, n_1, n_3, n_{out}, n_{final})\}
+		\end{align*}
+		testet zu allen definierten Variablen alle \textit{c-uses}.\\
+		Es muss gelten:
+		\begin{enumerate}
+			\item Zu jeder Variablen $x$ und zu jedem Knoten $n_i$ muss für jeden Knoten $n_j \in dcu(x, n_i)$ ein Pfad existieren, in dem dieser Knoten vorkommt.
+			\item In dem Pfad, in dem der Knoten $n_j$ vorkommt, muss der entsprechende Knoten $n_i$ vorher vorgekommen sein.
+			\item Es muss ein definitionsfreier Pfad von $n_i$ zu $x$ bis zum Knoten $n_j$ existieren.
+		\end{enumerate}
+	\subsection*{(e) \textit{All-c-some-p-uses}}
+		Die Menge aus (d) kann hier übernommen werden, da die Menge nur um einen Pfad mit einem \textit{p-use} für \texttt{MAXIMUM} erweitert werden müsste, jedoch ist die Kante $(n_8, n_{out})$ bereits im ersten Pfad vorhanden.\\
+		Dass für \texttt{MAXIMUM} ein \textit{p-use}-Test gemacht werden muss, ist an der leeren Menge im \textit{dcu} für \texttt{MAXIMUM} erkennbar.
+	\subsection*{(f) \textit{All-p-some-c-uses}}
+		Die Menge aus (c) muss hier um einen Pfad erweitert werden.\\
+		Ein \textit{c-use}-Test für die Definition von \texttt{epsilon} in $n_1$ ist im ersten Pfad enthalten.\\
+		Ein \textit{c-use}-Test für die Definition von \texttt{x} in $n_1$ ist im zweiten Pfad enthalten.\\
+		Ein \textit{c-use}-Test für die Definition von \texttt{zaehler} in $n_1$ ist im ersten Pfad enthalten.\\
+		Ein \textit{c-use}-Test für die Definition von \texttt{kopie} in $n_4$ ist im ersten Pfad enthalten.\\
+		Jedoch muss ein vierter Pfad für den \textit{c-use}-Test der Definition von \texttt{x} in $n_2$ hinzugefügt werden:
+			\begin{align*}
+				\{ & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_3, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}) \}
+			\end{align*}
+		Für jede Variablendefinition, die im \textit{dpu} eine leere Menge hat, muss ein \textit{c-use}-Testfall hinzugefügt werden. Vier von fünf Fälle sind bereits durch den \textit{all-p-uses} abgedeckt, einer kam noch hinzu.
+	\subsection*{(g) \textit{All-uses}}
+		Da das \textit{All-uses}-Kriterium eine Kombination aus den Kriterien aus (e) und (f) ist, reicht es, die Vereinigung aus beiden Mengen zu nehmen:
+		\begin{align*}
+				\{ & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_3, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}), \\
+				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final})\}
+		\end{align*}
 \end{document}
