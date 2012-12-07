@@ -58,6 +58,7 @@
 			\item Mindestens ein Knoten aus jeder \textit{dcu}-Menge kommt in dem Pfad vor, womit die Definition aller Variablen außer \texttt{MAXMIMUM} durch ein \textit{c-use} getestet wurde.
 			\item Für \texttt{MAXIMUM} ist meindestens einer der Kanten aus der \textit{dpu}-Menge im Pfad vorhanden.
 		\end{enumerate}
+		Allerdings gibt es keine Werte für die Eingabedaten, die diesen Pfad ermöglichen.
 	\subsection*{(c) \textit{All-p-uses}}
 		Die Menge
 		\begin{align*}
@@ -72,6 +73,10 @@
 			\item In dem Pfad, in dem die Kante $(n_j, n_k)$ vorkommt, muss der entsprechende Knoten $n_i$ vorher vorgekommen sein.
 			\item Es muss ein definitionsfreier Pfad von $n_i$ zu $x$ bis zur Kante $(n_j, n_k)$ existieren.
 		\end{enumerate}
+		Eingabedaten:\\
+		N/A\\
+		$zahl=0$\\
+		$zahl=100$
 	\subsection*{(d) \textit{All-c-uses}}
 		Die Menge
 		\begin{align*}
@@ -86,6 +91,10 @@
 			\item In dem Pfad, in dem der Knoten $n_j$ vorkommt, muss der entsprechende Knoten $n_i$ vorher vorgekommen sein.
 			\item Es muss ein definitionsfreier Pfad von $n_i$ zu $x$ bis zum Knoten $n_j$ existieren.
 		\end{enumerate}
+		Eingabedaten:\\
+		N/A\\
+		$zahl=-1$\\
+		$zahl= 0$
 	\subsection*{(e) \textit{All-c-some-p-uses}}
 		Die Menge aus (d) kann hier übernommen werden, da die Menge nur um einen Pfad mit einem \textit{p-use} für \texttt{MAXIMUM} erweitert werden müsste, jedoch ist die Kante $(n_8, n_{out})$ bereits im ersten Pfad vorhanden.\\
 		Dass für \texttt{MAXIMUM} ein \textit{p-use}-Test gemacht werden muss, ist an der leeren Menge im \textit{dcu} für \texttt{MAXIMUM} erkennbar.
@@ -102,7 +111,12 @@
 				   & (n_{start}, n_{in}, n_1, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final}), \\
 				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}) \}
 			\end{align*}
-		Für jede Variablendefinition, die im \textit{dpu} eine leere Menge hat, muss ein \textit{c-use}-Testfall hinzugefügt werden. Vier von fünf Fälle sind bereits durch den \textit{all-p-uses} abgedeckt, einer kam noch hinzu.
+		Für jede Variablendefinition, die im \textit{dpu} eine leere Menge hat, muss ein \textit{c-use}-Testfall hinzugefügt werden. Vier von fünf Fälle sind bereits durch den \textit{all-p-uses} abgedeckt, einer kam noch hinzu.\\
+		Eingabedaten:\\
+		N/A\\
+		$zahl=0$\\
+		$zahl=100$\\
+		$zahl= -1$
 	\subsection*{(g) \textit{All-uses}}
 		Da das \textit{All-uses}-Kriterium eine Kombination aus den Kriterien aus (e) und (f) ist, reicht es, die Vereinigung aus beiden Mengen zu nehmen:
 		\begin{align*}
@@ -112,6 +126,12 @@
 				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}), \\
 				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final})\}
 		\end{align*}
+		Eingabedaten:\\
+		N/A\\
+		$zahl=0$\\
+		$zahl=100$\\
+		$zahl= -1$\\
+		N/A
   \subsection*{(h) \textit{All-du-uses}}
     In userem Fall ist das \textit{All-du-uses}-Kriterium deckungsgleich mit dem Fall (d).
 		Die Menge
