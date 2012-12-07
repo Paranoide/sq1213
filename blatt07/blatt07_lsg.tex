@@ -20,7 +20,7 @@
 \newcommand{\makeline}{\hrule\vspace{5pt}}
 \newcommand{\ip}[2]{\left< #1, #2 \right>}
 
-\title{6. Übungsblatt zu Software Qualität}
+\title{7. Übungsblatt zu Software Qualität}
 \author{Michel Meyer, Manuel Schwarz}
 
 \begin{document}
@@ -36,15 +36,15 @@
 	\begin{tabular}{|l|l|l|l|}\hline
 		\textbf{Variable} & \textbf{Knoten $n_i$} & \textbf{\textit{dcu($x, n_i$)}} & \textbf{\textit{dpu($x, n_i$)}} \\\hline\hline
 		\texttt{zahl}    & $n_{in}$ & \{$n_4, n_7$\}        & \{$(n_1, n_2), (n_1, n_3), (n_3, n_4), (n_3, n_{out}), (n_8, n_7), (n_8, n_{out})$\} \\\hline
-		\texttt{epsilon} & $n_1$    & \{$n_5$\}             & \{$$\} \\\hline
+		\texttt{epsilon} & $n_1$    & \{$n_5$\}             & \{\} \\\hline
 		\texttt{epsilon} & $n_5$    & \{$n_5$\}             & \{$(n_8, n_7), (n_8, n_{out})$\} \\\hline
-		\texttt{MAXIMUM} & $n_1$    & \{$$\}                & \{$(n_8, n_7), (n_8, n_{out})$\} \\\hline
-		\texttt{x}       & $n_1$    & \{$n_{out}$\}         & \{$$\} \\\hline
-		\texttt{x}       & $n_2$    & \{$n_{out}$\}         & \{$$\} \\\hline
+		\texttt{MAXIMUM} & $n_1$    & \{\}                & \{$(n_8, n_7), (n_8, n_{out})$\} \\\hline
+		\texttt{x}       & $n_1$    & \{$n_{out}$\}         & \{\} \\\hline
+		\texttt{x}       & $n_2$    & \{$n_{out}$\}         & \{\} \\\hline
 		\texttt{x}       & $n_4$    & \{$n_7, {n_{out}}$\}  & \{$(n_8, n_7), (n_8, n_{out})$\} \\\hline
-		\texttt{zaehler} & $n_1$    & \{$n_7$\}             & \{$$\} \\\hline
+		\texttt{zaehler} & $n_1$    & \{$n_7$\}             & \{\} \\\hline
 		\texttt{zaehler} & $n_7$    & \{$n_7$\}             & \{$(n_8, n_7), (n_8, n_{out})$\} \\\hline
-		\texttt{kopie}   & $n_4$    & \{$n_5$\}             & \{$$\} \\\hline
+		\texttt{kopie}   & $n_4$    & \{$n_5$\}             & \{\} \\\hline
 		\texttt{kopie}   & $n_5$    & \{$n_5$\}             & \{$(n_6, n_5), (n_6, n_7)$\} \\\hline
 	\end{tabular}
 	\subsection*{(b) \textit{All-defs}}
@@ -112,4 +112,13 @@
 				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}), \\
 				   & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final})\}
 		\end{align*}
+  \subsection*{(h) \textit{All-du-uses}}
+    In userem Fall ist das \textit{All-du-uses}-Kriterium deckungsgleich mit dem Fall (d).
+		Die Menge
+		\begin{align*}
+			\{ & (n_{start}, n_{in}, n_1, n_2, n_3, n_4, n_5, n_6, n_5, n_6, n_7, n_8, n_7, n_8, n_{out}, n_{final}), \\
+			   & (n_{start}, n_{in}, n_1, n_2, n_3, n_{out}, n_{final}), \\
+			   & (n_{start}, n_{in}, n_1, n_3, n_{out}, n_{final})\}
+		\end{align*}
+		testet alle \textit{du}-Pfade bezüglich aller Definitionen aller Variablen.\\
 \end{document}
