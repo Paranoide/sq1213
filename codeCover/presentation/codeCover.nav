@@ -1,4 +1,4 @@
-\beamer@endinputifotherversion {3.10pt}
+\beamer@endinputifotherversion {3.24pt}
 \headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
 \headcommand {\beamer@framepages {1}{1}}
 \headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
@@ -43,16 +43,26 @@
 \headcommand {\beamer@subsectionentry {0}{4}{1}{13}{Kommandozeile}}\headcommand {\beamer@subsectionpages {13}{12}}
 \headcommand {\slideentry {4}{1}{1}{13/13}{Kommandozeile}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@subsectionentry {0}{4}{2}{14}{Eclipse}}\headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\slideentry {4}{2}{1}{14/14}{Eclipse}{0}}
+\headcommand {\slideentry {4}{1}{2}{14/14}{Kommandozeile}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\sectionentry {5}{Fazit}{15}{Fazit}{0}}
-\headcommand {\beamer@sectionpages {13}{14}}
-\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\slideentry {5}{0}{2}{15/15}{}{0}}
+\headcommand {\slideentry {4}{1}{3}{15/15}{Kommandozeile}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@partpages {1}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\beamer@sectionpages {15}{15}}
-\headcommand {\beamer@documentpages {15}}
-\headcommand {\def \inserttotalframenumber {15}}
+\headcommand {\slideentry {4}{1}{4}{16/16}{Kommandozeile}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {4}{1}{5}{17/17}{Kommandozeile}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {4}{1}{6}{18/18}{Kommandozeile}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{19}{Eclipse}}\headcommand {\beamer@subsectionpages {13}{18}}
+\headcommand {\slideentry {4}{2}{1}{19/19}{Eclipse}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\sectionentry {5}{Fazit}{20}{Fazit}{0}}
+\headcommand {\beamer@sectionpages {13}{19}}
+\headcommand {\beamer@subsectionpages {19}{19}}
+\headcommand {\slideentry {5}{0}{2}{20/20}{}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@partpages {1}{20}}
+\headcommand {\beamer@subsectionpages {20}{20}}
+\headcommand {\beamer@sectionpages {20}{20}}
+\headcommand {\beamer@documentpages {20}}
+\headcommand {\def \inserttotalframenumber {20}}

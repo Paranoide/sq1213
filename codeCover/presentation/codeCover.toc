@@ -1,4 +1,4 @@
-\beamer@endinputifotherversion {3.10pt}
+\beamer@endinputifotherversion {3.24pt}
 \select@language {ngerman}
 \beamer@sectionintoc {1}{Einleitung}{3}{0}{1}
 \beamer@sectionintoc {2}{CodeCover allgemein}{4}{0}{2}
@@ -10,5 +10,5 @@
 \beamer@subsectionintoc {3}{2}{Technische Integration}{11}{0}{3}
 \beamer@sectionintoc {4}{CodeCover Demo}{13}{0}{4}
 \beamer@subsectionintoc {4}{1}{Kommandozeile}{13}{0}{4}
-\beamer@subsectionintoc {4}{2}{Eclipse}{14}{0}{4}
-\beamer@sectionintoc {5}{Fazit}{15}{0}{5}
+\beamer@subsectionintoc {4}{2}{Eclipse}{19}{0}{4}
+\beamer@sectionintoc {5}{Fazit}{20}{0}{5}
