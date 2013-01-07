@@ -187,6 +187,88 @@
     \normalsize{\texttt{SimpleJavaApp}}\\
   \end{frame}
 
+  \begin{frame}\frametitle{Live Notification (1)}
+    Live Notification wird genutzt um verschiedene Testfälle zu generieren.\\
+    Notwendige VM Argumente:
+    \begin{block}{VM Argumente}
+      -Dcom.sun.management.jmxremote \\
+      -Dcom.sun.management.jmxremote.port=1234 \\
+      -Dcom.sun.management.jmxremote.ssl=false \\
+      -Dcom.sun.management.jmxremote.authenticate=false
+    \end{block}
+  \end{frame}
+
+  \begin{frame}\frametitle{Live Notification (2)}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{itemize}
+          \item ``\texttt{Live Notification}''-View wählen
+          \item ``\texttt{localhost}'' als hostname und ``\texttt{1234}'' als port eintragen
+          \item Applikation starten
+          \item ``\texttt{connect}'' klicken
+          \item Testfälle generieren
+        \end{itemize}
+        \vspace{1cm}
+      \end{column}
+      \begin{column}{5cm}
+        \begin{overprint}
+          \includegraphics[height=50mm]{pictures/demo_eclipse/01_live_notification.png}
+        \end{overprint}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}\frametitle{Testfälle}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{itemize}
+          \item Erzeugte Testfälle werden gespeichert
+          \item Auswahl treffen
+          \item View wählen und anzeigen
+        \end{itemize}
+        \vspace{1cm}
+      \end{column}
+      \begin{column}{5cm}
+        \begin{overprint}
+          \includegraphics[width=4cm]{pictures/demo_eclipse/02_test_cases.png}
+        \end{overprint}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+  \begin{frame}\frametitle{Coverage View}
+    \begin{columns}
+      \begin{column}{5cm}
+        \begin{itemize}
+          \item Zeigt den Grad der jeweiligen Überdeckung an
+          \item hier: Anweisungsüberdeckung
+        \end{itemize}
+        \vspace{2cm}
+      \end{column}
+      \begin{column}{5cm}
+        \begin{overprint}
+          \includegraphics[height=6cm]{pictures/demo_eclipse/03_coverage_view.png}
+        \end{overprint}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
+   \begin{frame}\frametitle{Correlation View}
+    \begin{columns}
+      \begin{column}{4cm}
+        \begin{itemize}
+          \item Zeigt an, wie stark unteschiedliche Testfälle miteinander korrelieren
+        \end{itemize}
+        \vspace{2cm}
+      \end{column}
+      \begin{column}{6cm}
+        \begin{overprint}
+          \includegraphics[width=7cm]{pictures/demo_eclipse/04_correlation_view.png}
+        \end{overprint}
+      \end{column}
+    \end{columns}
+  \end{frame}
+
 
   \section{Fazit}
   \begin{frame}\frametitle{Zusammenfassung und Fazit}

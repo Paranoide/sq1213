@@ -46,13 +46,23 @@
 \headcommand {\beamer@subsectionentry {0}{4}{2}{14}{Eclipse}}\headcommand {\beamer@subsectionpages {13}{13}}
 \headcommand {\slideentry {4}{2}{1}{14/14}{Eclipse}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\sectionentry {5}{Fazit}{15}{Fazit}{0}}
-\headcommand {\beamer@sectionpages {13}{14}}
-\headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\slideentry {5}{0}{2}{15/15}{}{0}}
+\headcommand {\slideentry {4}{2}{2}{15/15}{Eclipse}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@partpages {1}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\beamer@sectionpages {15}{15}}
-\headcommand {\beamer@documentpages {15}}
-\headcommand {\def \inserttotalframenumber {15}}
+\headcommand {\slideentry {4}{2}{3}{16/16}{Eclipse}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\slideentry {4}{2}{4}{17/17}{Eclipse}{0}}
+\headcommand {\beamer@framepages {17}{17}}
+\headcommand {\slideentry {4}{2}{5}{18/18}{Eclipse}{0}}
+\headcommand {\beamer@framepages {18}{18}}
+\headcommand {\slideentry {4}{2}{6}{19/19}{Eclipse}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\sectionentry {5}{Fazit}{20}{Fazit}{0}}
+\headcommand {\beamer@sectionpages {13}{19}}
+\headcommand {\beamer@subsectionpages {14}{19}}
+\headcommand {\slideentry {5}{0}{7}{20/20}{}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@partpages {1}{20}}
+\headcommand {\beamer@subsectionpages {20}{20}}
+\headcommand {\beamer@sectionpages {20}{20}}
+\headcommand {\beamer@documentpages {20}}
+\headcommand {\def \inserttotalframenumber {20}}
