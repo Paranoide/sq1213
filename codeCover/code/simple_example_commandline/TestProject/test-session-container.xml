@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1357529574339" TestSessionContainerId="a5b2c7ae-b3ed-4faf-8e6f-a22485ff8b0a" version="1.0">
+<SrcFileList>
+<SrcFile Content="package main;&#13;&#10;&#13;&#10;public class Main&#13;&#10;{&#13;&#10;&#9;public static void main(String[] args)&#13;&#10;&#9;{&#13;&#10;&#9;&#9;boolean a, b, c, d;&#13;&#10;&#13;&#10;&#9;&#9;a = true;&#13;&#10;&#9;&#9;b = true;&#13;&#10;&#9;&#9;c = false;&#13;&#10;&#9;&#9;d = false;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;if (a || b)&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;System.out.println(&quot;a == true&quot;);&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;while ((a &amp;&amp; b) || (c &amp;&amp; d))&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;System.out.println(&quot;(a &amp;&amp; b) || (c &amp;&amp; d)&quot;);&#13;&#10;&#9;&#9;&#9;a = false;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;for (int t = 0; t &lt; 100; t++)&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;if (t &gt; 10)&#13;&#10;&#9;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;t &gt; 10&quot;);&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;&#13;&#10;&#9;&#9;&#9;if (t == 100)&#13;&#10;&#9;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;t == 100&quot;);&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;}&#13;&#10;" Filename="Main.java" Intrnl_Id="1"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList>
+<BoolOp Arity="2" Intrnl_Id="2" Name="conditional and (&amp;&amp;)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="10" Value="false"/>
+<MapEntry BoolAssgnmnt="02" Value="false"/>
+<MapEntry BoolAssgnmnt="11" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+<BoolOp Arity="2" Intrnl_Id="3" Name="conditional or (||)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="01" Value="true"/>
+<MapEntry BoolAssgnmnt="00" Value="false"/>
+<MapEntry BoolAssgnmnt="12" Value="true"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+</BoolOpList>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="5"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="6"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="7"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="4" HierarchyLvlTypeId="7" Intrnl_Id="8" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="3" HierarchyLvlTypeId="4" Intrnl_Id="9" Name="main">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="2" HierarchyLvlTypeId="5" Intrnl_Id="10" Name="Main">
+<Header>
+<Loc EndOffset="34" SrcFileId="1" StartOffset="17"/>
+</Header>
+<LocList>
+<Loc EndOffset="525" SrcFileId="1" StartOffset="17"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="1" HierarchyLvlTypeId="6" Intrnl_Id="11" Name="main">
+<Header>
+<Loc EndOffset="78" SrcFileId="1" StartOffset="40"/>
+</Header>
+<LocList>
+<Loc EndOffset="522" SrcFileId="1" StartOffset="40"/>
+</LocList>
+<StmntSeq Intrnl_Id="12">
+<LocList>
+<Loc EndOffset="120" SrcFileId="1" StartOffset="111"/>
+<Loc EndOffset="133" SrcFileId="1" StartOffset="124"/>
+<Loc EndOffset="147" SrcFileId="1" StartOffset="137"/>
+<Loc EndOffset="161" SrcFileId="1" StartOffset="151"/>
+<Loc EndOffset="227" SrcFileId="1" StartOffset="169"/>
+<Loc EndOffset="336" SrcFileId="1" StartOffset="235"/>
+<Loc EndOffset="518" SrcFileId="1" StartOffset="344"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="main.Main.java" Intrnl_Id="13">
+<LocList>
+<Loc EndOffset="120" SrcFileId="1" StartOffset="111"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S2" CovItemPrefix="main.Main.java" Intrnl_Id="14">
+<LocList>
+<Loc EndOffset="133" SrcFileId="1" StartOffset="124"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S3" CovItemPrefix="main.Main.java" Intrnl_Id="15">
+<LocList>
+<Loc EndOffset="147" SrcFileId="1" StartOffset="137"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="main.Main.java" Intrnl_Id="16">
+<LocList>
+<Loc EndOffset="161" SrcFileId="1" StartOffset="151"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S5" CovItemPrefix="main.Main.java" Intrnl_Id="17">
+<Branch CovItemId="B1" CovItemPrefix="main.Main.java" Implct="false" Intrnl_Id="18">
+<Cond/>
+<LocList>
+<Loc EndOffset="227" SrcFileId="1" StartOffset="184"/>
+</LocList>
+<StmntSeq Intrnl_Id="19">
+<LocList>
+<Loc EndOffset="222" SrcFileId="1" StartOffset="190"/>
+</LocList>
+<BasicStmnt CovItemId="S6" CovItemPrefix="main.Main.java" Intrnl_Id="20">
+<LocList>
+<Loc EndOffset="222" SrcFileId="1" StartOffset="190"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="main.Main.java" Implct="true" Intrnl_Id="21">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="22">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="171" SrcFileId="1" StartOffset="169"/>
+<LocList>
+<Loc EndOffset="227" SrcFileId="1" StartOffset="169"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="main.Main.java" Intrnl_Id="23">
+<OpTerm BooleanOpId="3" Intrnl_Id="24">
+<BasicBoolTerm Intrnl_Id="25">
+<LocList>
+<Loc EndOffset="174" SrcFileId="1" StartOffset="173"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="26">
+<LocList>
+<Loc EndOffset="179" SrcFileId="1" StartOffset="178"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="177" SrcFileId="1" StartOffset="175"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<LoopStmnt CovItemId="S7" CovItemPrefix="main.Main.java" Intrnl_Id="27" MltplExecId="L1-2" MltplExecPrefix="main.Main.java" NvrExecId="L1-0" NvrExecPrefix="main.Main.java" OnceExecutedId="L1-1" OnceExecutedPrefix="main.Main.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="28">
+<LocList>
+<Loc EndOffset="316" SrcFileId="1" StartOffset="273"/>
+<Loc EndOffset="331" SrcFileId="1" StartOffset="321"/>
+</LocList>
+<BasicStmnt CovItemId="S8" CovItemPrefix="main.Main.java" Intrnl_Id="29">
+<LocList>
+<Loc EndOffset="316" SrcFileId="1" StartOffset="273"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S9" CovItemPrefix="main.Main.java" Intrnl_Id="30">
+<LocList>
+<Loc EndOffset="331" SrcFileId="1" StartOffset="321"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="240" SrcFileId="1" StartOffset="235"/>
+<LocList>
+<Loc EndOffset="336" SrcFileId="1" StartOffset="235"/>
+</LocList>
+<RootTerm CovItemId="C2" CovItemPrefix="main.Main.java" Intrnl_Id="31">
+<OpTerm BooleanOpId="3" Intrnl_Id="32">
+<OpTerm BooleanOpId="2" Intrnl_Id="33">
+<BasicBoolTerm Intrnl_Id="34">
+<LocList>
+<Loc EndOffset="244" SrcFileId="1" StartOffset="243"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="35">
+<LocList>
+<Loc EndOffset="249" SrcFileId="1" StartOffset="248"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="247" SrcFileId="1" StartOffset="245"/>
+</LocList>
+</OpTerm>
+<OpTerm BooleanOpId="2" Intrnl_Id="36">
+<BasicBoolTerm Intrnl_Id="37">
+<LocList>
+<Loc EndOffset="256" SrcFileId="1" StartOffset="255"/>
+</LocList>
+</BasicBoolTerm>
+<BasicBoolTerm Intrnl_Id="38">
+<LocList>
+<Loc EndOffset="261" SrcFileId="1" StartOffset="260"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="259" SrcFileId="1" StartOffset="257"/>
+</LocList>
+</OpTerm>
+<LocList>
+<Loc EndOffset="253" SrcFileId="1" StartOffset="251"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</LoopStmnt>
+<LoopStmnt CovItemId="S10" CovItemPrefix="main.Main.java" Intrnl_Id="39" MltplExecId="L2-2" MltplExecPrefix="main.Main.java" NvrExecId="L2-0" NvrExecPrefix="main.Main.java" OnceExecutedId="L2-1" OnceExecutedPrefix="main.Main.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="40">
+<LocList>
+<Loc EndOffset="441" SrcFileId="1" StartOffset="383"/>
+<Loc EndOffset="513" SrcFileId="1" StartOffset="451"/>
+</LocList>
+<CondStmnt CovItemId="S11" CovItemPrefix="main.Main.java" Intrnl_Id="41">
+<Branch CovItemId="B3" CovItemPrefix="main.Main.java" Implct="false" Intrnl_Id="42">
+<Cond/>
+<LocList>
+<Loc EndOffset="441" SrcFileId="1" StartOffset="399"/>
+</LocList>
+<StmntSeq Intrnl_Id="43">
+<LocList>
+<Loc EndOffset="435" SrcFileId="1" StartOffset="406"/>
+</LocList>
+<BasicStmnt CovItemId="S12" CovItemPrefix="main.Main.java" Intrnl_Id="44">
+<LocList>
+<Loc EndOffset="435" SrcFileId="1" StartOffset="406"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="main.Main.java" Implct="true" Intrnl_Id="45">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="46">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="385" SrcFileId="1" StartOffset="383"/>
+<LocList>
+<Loc EndOffset="441" SrcFileId="1" StartOffset="383"/>
+</LocList>
+<RootTerm CovItemId="C4" CovItemPrefix="main.Main.java" Intrnl_Id="47">
+<BasicBoolTerm Intrnl_Id="48">
+<LocList>
+<Loc EndOffset="393" SrcFileId="1" StartOffset="387"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<CondStmnt CovItemId="S13" CovItemPrefix="main.Main.java" Intrnl_Id="49">
+<Branch CovItemId="B5" CovItemPrefix="main.Main.java" Implct="false" Intrnl_Id="50">
+<Cond/>
+<LocList>
+<Loc EndOffset="513" SrcFileId="1" StartOffset="469"/>
+</LocList>
+<StmntSeq Intrnl_Id="51">
+<LocList>
+<Loc EndOffset="507" SrcFileId="1" StartOffset="476"/>
+</LocList>
+<BasicStmnt CovItemId="S14" CovItemPrefix="main.Main.java" Intrnl_Id="52">
+<LocList>
+<Loc EndOffset="507" SrcFileId="1" StartOffset="476"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B6" CovItemPrefix="main.Main.java" Implct="true" Intrnl_Id="53">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="54">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="453" SrcFileId="1" StartOffset="451"/>
+<LocList>
+<Loc EndOffset="513" SrcFileId="1" StartOffset="451"/>
+</LocList>
+<RootTerm CovItemId="C5" CovItemPrefix="main.Main.java" Intrnl_Id="55">
+<BasicBoolTerm Intrnl_Id="56">
+<LocList>
+<Loc EndOffset="463" SrcFileId="1" StartOffset="455"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="347" SrcFileId="1" StartOffset="344"/>
+<LocList>
+<Loc EndOffset="518" SrcFileId="1" StartOffset="344"/>
+</LocList>
+<RootTerm CovItemId="C3" CovItemPrefix="main.Main.java" Intrnl_Id="57">
+<BasicBoolTerm Intrnl_Id="58">
+<LocList>
+<Loc EndOffset="367" SrcFileId="1" StartOffset="360"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</LoopStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+<TestSession Comment="The first test session" Date="1357530214182" Name="TestSession1">
+<TestCase Comment="This is a test case containing all coverage results cause no startTestCase methods where captured." Date="1357529996823" Name="UNNAMED TESTCASE">
+<CovList>
+<CovPrefix CovItemPrefix="main.Main.java">
+<Cov CovItemId="B1" Value="1"/>
+<Cov CovItemId="B3" Value="89"/>
+<Cov CovItemId="B4" Value="11"/>
+<Cov CovItemId="B6" Value="100"/>
+<Cov CovItemId="L1-1" Value="1"/>
+<Cov CovItemId="L2-2" Value="1"/>
+<Cov CovItemId="S1" Value="1"/>
+<Cov CovItemId="S10" Value="1"/>
+<Cov CovItemId="S11" Value="100"/>
+<Cov CovItemId="S12" Value="89"/>
+<Cov CovItemId="S13" Value="100"/>
+<Cov CovItemId="S2" Value="1"/>
+<Cov CovItemId="S3" Value="1"/>
+<Cov CovItemId="S4" Value="1"/>
+<Cov CovItemId="S5" Value="1"/>
+<Cov CovItemId="S6" Value="1"/>
+<Cov CovItemId="S7" Value="1"/>
+<Cov CovItemId="S8" Value="1"/>
+<Cov CovItemId="S9" Value="1"/>
+</CovPrefix>
+</CovList>
+<AssgnmntList>
+<AssgnmntPrefix RootTermCovItemPrefix="main.Main.java">
+<AssgnmntListEntry Length="2" RootTermCovItemId="C1">
+<MapEntry BoolAssgnmnt="12" Value="1"/>
+</AssgnmntListEntry>
+<AssgnmntListEntry Length="4" RootTermCovItemId="C2">
+<MapEntry BoolAssgnmnt="1122" Value="1"/>
+<MapEntry BoolAssgnmnt="0202" Value="1"/>
+</AssgnmntListEntry>
+<AssgnmntListEntry Length="1" RootTermCovItemId="C3">
+<MapEntry BoolAssgnmnt="0" Value="1"/>
+<MapEntry BoolAssgnmnt="1" Value="100"/>
+</AssgnmntListEntry>
+<AssgnmntListEntry Length="1" RootTermCovItemId="C4">
+<MapEntry BoolAssgnmnt="0" Value="11"/>
+<MapEntry BoolAssgnmnt="1" Value="89"/>
+</AssgnmntListEntry>
+<AssgnmntListEntry Length="1" RootTermCovItemId="C5">
+<MapEntry BoolAssgnmnt="0" Value="100"/>
+</AssgnmntListEntry>
+</AssgnmntPrefix>
+</AssgnmntList>
+<ObjMetaDataList/>
+<MetaDataList/>
+</TestCase>
+<MetaDataList/>
+</TestSession>
+</TestSessionContainer>
