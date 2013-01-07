@@ -11,4 +11,4 @@
 \beamer@sectionintoc {4}{CodeCover Demo}{13}{0}{4}
 \beamer@subsectionintoc {4}{1}{Kommandozeile}{13}{0}{4}
 \beamer@subsectionintoc {4}{2}{Eclipse}{19}{0}{4}
-\beamer@sectionintoc {5}{Fazit}{20}{0}{5}
+\beamer@sectionintoc {5}{Fazit}{25}{0}{5}

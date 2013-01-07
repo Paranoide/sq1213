@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1357516820646" TestSessionContainerId="a749fbb1-2cba-4e92-a49f-ae04e618715f" version="1.0">
+<SrcFileList>
+<SrcFile Content="package org.codecover.simplejavaapp.controller;&#10;&#10;import java.io.File;&#10;import java.io.IOException;&#10;&#10;import javax.swing.JOptionPane;&#10;import javax.xml.parsers.ParserConfigurationException;&#10;import javax.xml.transform.TransformerException;&#10;&#10;import org.codecover.simplejavaapp.model.AppModel;&#10;import org.codecover.simplejavaapp.model.Book;&#10;import org.codecover.simplejavaapp.view.AppView;&#10;import org.codecover.simplejavaapp.view.AppView.ViewListener;&#10;import org.xml.sax.SAXException;&#10;&#10;/**&#10; * @author Markus Wittlinger&#10; * @version 1.0 ($Id$)&#10; */&#10;public class AppController {&#10;    private static final AppModel model = AppModel.getInstance();&#10;&#10;    private static final AppView view = AppView.getInstance();&#10;&#10;    private static AppController instance;&#10;&#10;    /**&#10;     * Singleton-Pattern method to get the instance of {@link AppController}.&#10;     * &#10;     * @return the instance of the {@link AppController}&#10;     */&#10;    public static AppController getInstance() {&#10;        if (instance == null) {&#10;            instance = new AppController();&#10;        }&#10;&#10;        return instance;&#10;    }&#10;&#10;    private AppController() {&#10;        view.addViewListener(new AppViewListener());&#10;    }&#10;&#10;    /**&#10;     * Opens the application in its initial state.&#10;     */&#10;    public static void initialize() {&#10;        AppController appController = AppController.getInstance();&#10;&#10;        appController.onOpenNewWindow();&#10;    }&#10;&#10;    private void onOpenNewWindow() {&#10;        String fileId = model.newFile();&#10;&#10;        view.openWindow(fileId);&#10;    }&#10;&#10;    private void onNewBook(String fileId) {&#10;        Book book = new Book();&#10;&#10;        model.addBookToFile(fileId, book);&#10;    }&#10;&#10;    private boolean onCloseWindow(String fileId) {&#10;        if (model.isFileModified(fileId)) {&#10;            int result = view.showConfirmationDialog(&#10;                    &quot;The file has modifications. Save before proceeding?&quot;,&#10;                    fileId);&#10;&#10;            switch (result) {&#10;                case JOptionPane.YES_OPTION:&#10;                    if (!onSave(fileId)) {&#10;                        /* Saving was aborted or failed, so we don't proceed */&#10;                        return false;&#10;                    }&#10;                    break;&#10;                case JOptionPane.NO_OPTION:&#10;                    break;&#10;                case JOptionPane.CANCEL_OPTION:&#10;                    /* Saving was aborted or failed, so we don't proceed */&#10;                    return false;&#10;            }&#10;        }&#10;&#10;        view.closeWindow(fileId);&#10;        model.closeFile(fileId, true);&#10;        return true;&#10;    }&#10;&#10;    private void onDelete(String fileId, String[] bookIds) {&#10;        if(bookIds.length == 0) {&#10;            return;&#10;        }&#10;        &#10;        int result = view.showConfirmationDialog(&#10;                &quot;Are you sure you want to delete these books?&quot;, fileId);&#10;        switch (result) {&#10;            case JOptionPane.YES_OPTION:&#10;                for (String bookId : bookIds) {&#10;                    model.removeBookFromFile(fileId, bookId);&#10;                }&#10;                break;&#10;            case JOptionPane.NO_OPTION:&#10;            case JOptionPane.CANCEL_OPTION:&#10;        }&#10;    }&#10;&#10;    private void onOpen(String fileId) {&#10;        if (model.isFileModified(fileId)) {&#10;            int result = view.showConfirmationDialog(&#10;                    &quot;The file has modifications. Save before proceeding?&quot;,&#10;                    fileId);&#10;&#10;            switch (result) {&#10;                case JOptionPane.YES_OPTION:&#10;                    if (!onSave(fileId)) {&#10;                        /* Saving was aborted or failed, so we don't proceed */&#10;                        return;&#10;                    }&#10;                    break;&#10;                case JOptionPane.NO_OPTION:&#10;                    break;&#10;                case JOptionPane.CANCEL_OPTION:&#10;                    /* Saving was aborted or failed, so we don't proceed */&#10;                    return;&#10;            }&#10;        }&#10;&#10;        String path = view.showOpenDialog(fileId);&#10;&#10;        if (path == null) {&#10;            return;&#10;        }&#10;&#10;        try {&#10;            String newFileId = model.loadFile(new File(path));&#10;&#10;            view.openFileInWindow(fileId, newFileId);&#10;            model.closeFile(fileId, true);&#10;        } catch (ParserConfigurationException e) {&#10;            view.showErrorDialog(&quot;Error loading file&quot;, fileId);&#10;        } catch (SAXException e) {&#10;            view.showErrorDialog(&quot;Error loading file&quot;, fileId);&#10;        } catch (IOException e) {&#10;            view.showErrorDialog(&quot;Error loading file&quot;, fileId);&#10;        }&#10;    }&#10;&#10;    private void onQuit(String fileId, String[] allFileIds) {&#10;        for (String id : allFileIds) {&#10;            if (!onCloseWindow(id)) {&#10;                return;&#10;            }&#10;        }&#10;&#10;        /* All windows were closed so we can exit the application. */&#10;        System.exit(0);&#10;    }&#10;&#10;    private boolean onSave(String fileId) {&#10;        String path = model.getPathOfFile(fileId);&#10;&#10;        if (path == null) {&#10;            return onSaveAs(fileId);&#10;        } else {&#10;            save(fileId, new File(path));&#10;            return true;&#10;        }&#10;    }&#10;&#10;    private boolean onSaveAs(String fileId) {&#10;        String path = view.showSaveAsDialog(fileId);&#10;&#10;        if (path == null) {&#10;            return false;&#10;        } else {&#10;            save(fileId, new File(path));&#10;            return true;&#10;        }&#10;    }&#10;&#10;    private void save(String fileId, File file) {&#10;        try {&#10;            model.saveFile(fileId, file);&#10;        } catch (ParserConfigurationException e) {&#10;            view.showErrorDialog(&quot;Error saving file&quot;, fileId);&#10;        } catch (TransformerException e) {&#10;            view.showErrorDialog(&quot;Error saving file&quot;, fileId);&#10;        } catch (IOException e) {&#10;            view.showErrorDialog(&quot;Error saving file&quot;, fileId);&#10;        }&#10;    }&#10;&#10;    private final class AppViewListener implements ViewListener {&#10;&#10;        /**&#10;         * (non-Javadoc)&#10;         * &#10;         * @see org.codecover.simplejavaapp.view.AppView.ViewListener#update(org.codecover.simplejavaapp.view.AppView.ViewListener.ViewEvent,&#10;         *      java.lang.String, java.lang.Object)&#10;         */&#10;        public void update(ViewEvent viewEvent, String fileId, Object args) {&#10;            switch (viewEvent) {&#10;                case EVENT_CLOSE_WINDOW:&#10;                    onCloseWindow(fileId);&#10;                    break;&#10;                case EVENT_DELETE:&#10;                    onDelete(fileId, (String[]) args);&#10;                    break;&#10;                case EVENT_NEW_BOOK:&#10;                    onNewBook(fileId);&#10;                    break;&#10;                case EVENT_NEW_WINDOW:&#10;                    onOpenNewWindow();&#10;                    break;&#10;                case EVENT_OPEN:&#10;                    onOpen(fileId);&#10;                    break;&#10;                case EVENT_QUIT:&#10;                    onQuit(fileId, (String[]) args);&#10;                    break;&#10;                case EVENT_SAVE:&#10;                    onSave(fileId);&#10;                    break;&#10;                case EVENT_SAVE_AS:&#10;                    onSaveAs(fileId);&#10;                    break;&#10;            }&#10;        }&#10;    }&#10;}&#10;" Filename="AppController.java" Intrnl_Id="1"/>
+<SrcFile Content="package org.codecover.simplejavaapp;&#10;&#10;import org.codecover.simplejavaapp.controller.AppController;&#10;&#10;/**&#10; * @author Markus Wittlinger&#10; * @version 1.0 ($Id$)&#10; */&#10;public class SimpleJavaApp {&#10;    final static boolean thisIsAMac = System.getProperty(&quot;mrj.version&quot;) != null;&#10;&#10;    /**&#10;     * @param args&#10;     */&#10;    public static void main(String[] args) {&#10;        if (thisIsAMac) {&#10;            System.setProperty(&quot;apple.laf.useScreenMenuBar&quot;, &quot;true&quot;);&#10;        }&#10;        &#10;        AppController.initialize();&#10;    }&#10;}&#10;" Filename="SimpleJavaApp.java" Intrnl_Id="2"/>
+</SrcFileList>
+<CritList>
+<CritListEntry Name="org.codecover.model.utils.criteria.LoopCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+<CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+</CritList>
+<BoolOpList>
+<BoolOp Arity="1" Intrnl_Id="3" Name="not (!)">
+<BoolAssgnmntBoolMapList>
+<MapEntry BoolAssgnmnt="0" Value="true"/>
+<MapEntry BoolAssgnmnt="1" Value="false"/>
+</BoolAssgnmntBoolMapList>
+</BoolOp>
+</BoolOpList>
+<HierarchyLvlTypeList>
+<HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="4"/>
+<HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="5"/>
+<HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="6"/>
+<HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="7"/>
+</HierarchyLvlTypeList>
+<MASTRoot>
+<HierarchyLvl HierarchyLvlId="989" HierarchyLvlTypeId="7" Intrnl_Id="8" Name="default package">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="988" HierarchyLvlTypeId="4" Intrnl_Id="9" Name="org">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="987" HierarchyLvlTypeId="4" Intrnl_Id="10" Name="codecover">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="986" HierarchyLvlTypeId="4" Intrnl_Id="11" Name="simplejavaapp">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="985" HierarchyLvlTypeId="4" Intrnl_Id="12" Name="controller">
+<Header/>
+<LocList/>
+<HierarchyLvl HierarchyLvlId="982" HierarchyLvlTypeId="5" Intrnl_Id="13" Name="AppController">
+<Header>
+<Loc EndOffset="565" SrcFileId="1" StartOffset="539"/>
+</Header>
+<LocList>
+<Loc EndOffset="5732" SrcFileId="1" StartOffset="539"/>
+<Loc EndOffset="7034" SrcFileId="1" StartOffset="7032"/>
+</LocList>
+<StmntSeq Intrnl_Id="14">
+<LocList>
+<Loc EndOffset="633" SrcFileId="1" StartOffset="572"/>
+<Loc EndOffset="697" SrcFileId="1" StartOffset="639"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="15">
+<LocList>
+<Loc EndOffset="633" SrcFileId="1" StartOffset="572"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S2" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="16">
+<LocList>
+<Loc EndOffset="697" SrcFileId="1" StartOffset="639"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="968" HierarchyLvlTypeId="6" Intrnl_Id="17" Name="getInstance">
+<Header>
+<Loc EndOffset="947" SrcFileId="1" StartOffset="906"/>
+</Header>
+<LocList>
+<Loc EndOffset="1067" SrcFileId="1" StartOffset="906"/>
+</LocList>
+<StmntSeq Intrnl_Id="18">
+<LocList>
+<Loc EndOffset="1035" SrcFileId="1" StartOffset="958"/>
+<Loc EndOffset="1061" SrcFileId="1" StartOffset="1045"/>
+</LocList>
+<CondStmnt CovItemId="S3" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="19">
+<Branch CovItemId="B1" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="20">
+<Cond/>
+<LocList>
+<Loc EndOffset="1035" SrcFileId="1" StartOffset="980"/>
+</LocList>
+<StmntSeq Intrnl_Id="21">
+<LocList>
+<Loc EndOffset="1025" SrcFileId="1" StartOffset="994"/>
+</LocList>
+<BasicStmnt CovItemId="S4" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="22">
+<LocList>
+<Loc EndOffset="1025" SrcFileId="1" StartOffset="994"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="23">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="24">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="960" SrcFileId="1" StartOffset="958"/>
+<LocList>
+<Loc EndOffset="1035" SrcFileId="1" StartOffset="958"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="25">
+<BasicBoolTerm Intrnl_Id="26">
+<LocList>
+<Loc EndOffset="978" SrcFileId="1" StartOffset="962"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S5" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="27">
+<LocList>
+<Loc EndOffset="1061" SrcFileId="1" StartOffset="1045"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="969" HierarchyLvlTypeId="6" Intrnl_Id="28" Name="AppController">
+<Header>
+<Loc EndOffset="1096" SrcFileId="1" StartOffset="1073"/>
+</Header>
+<LocList>
+<Loc EndOffset="1157" SrcFileId="1" StartOffset="1073"/>
+</LocList>
+<StmntSeq Intrnl_Id="29">
+<LocList>
+<Loc EndOffset="1151" SrcFileId="1" StartOffset="1107"/>
+</LocList>
+<BasicStmnt CovItemId="S6" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="30">
+<LocList>
+<Loc EndOffset="1151" SrcFileId="1" StartOffset="1107"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="970" HierarchyLvlTypeId="6" Intrnl_Id="31" Name="initialize">
+<Header>
+<Loc EndOffset="1261" SrcFileId="1" StartOffset="1230"/>
+</Header>
+<LocList>
+<Loc EndOffset="1378" SrcFileId="1" StartOffset="1230"/>
+</LocList>
+<StmntSeq Intrnl_Id="32">
+<LocList>
+<Loc EndOffset="1330" SrcFileId="1" StartOffset="1272"/>
+<Loc EndOffset="1372" SrcFileId="1" StartOffset="1340"/>
+</LocList>
+<BasicStmnt CovItemId="S7" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="33">
+<LocList>
+<Loc EndOffset="1330" SrcFileId="1" StartOffset="1272"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S8" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="34">
+<LocList>
+<Loc EndOffset="1372" SrcFileId="1" StartOffset="1340"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="971" HierarchyLvlTypeId="6" Intrnl_Id="35" Name="onOpenNewWindow">
+<Header>
+<Loc EndOffset="1414" SrcFileId="1" StartOffset="1384"/>
+</Header>
+<LocList>
+<Loc EndOffset="1497" SrcFileId="1" StartOffset="1384"/>
+</LocList>
+<StmntSeq Intrnl_Id="36">
+<LocList>
+<Loc EndOffset="1457" SrcFileId="1" StartOffset="1425"/>
+<Loc EndOffset="1491" SrcFileId="1" StartOffset="1467"/>
+</LocList>
+<BasicStmnt CovItemId="S9" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="37">
+<LocList>
+<Loc EndOffset="1457" SrcFileId="1" StartOffset="1425"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S10" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="38">
+<LocList>
+<Loc EndOffset="1491" SrcFileId="1" StartOffset="1467"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="972" HierarchyLvlTypeId="6" Intrnl_Id="39" Name="onNewBook">
+<Header>
+<Loc EndOffset="1540" SrcFileId="1" StartOffset="1503"/>
+</Header>
+<LocList>
+<Loc EndOffset="1624" SrcFileId="1" StartOffset="1503"/>
+</LocList>
+<StmntSeq Intrnl_Id="40">
+<LocList>
+<Loc EndOffset="1574" SrcFileId="1" StartOffset="1551"/>
+<Loc EndOffset="1618" SrcFileId="1" StartOffset="1584"/>
+</LocList>
+<BasicStmnt CovItemId="S11" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="41">
+<LocList>
+<Loc EndOffset="1574" SrcFileId="1" StartOffset="1551"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S12" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="42">
+<LocList>
+<Loc EndOffset="1618" SrcFileId="1" StartOffset="1584"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="973" HierarchyLvlTypeId="6" Intrnl_Id="43" Name="onCloseWindow">
+<Header>
+<Loc EndOffset="1674" SrcFileId="1" StartOffset="1630"/>
+</Header>
+<LocList>
+<Loc EndOffset="2518" SrcFileId="1" StartOffset="1630"/>
+</LocList>
+<StmntSeq Intrnl_Id="44">
+<LocList>
+<Loc EndOffset="2417" SrcFileId="1" StartOffset="1685"/>
+<Loc EndOffset="2452" SrcFileId="1" StartOffset="2427"/>
+<Loc EndOffset="2491" SrcFileId="1" StartOffset="2461"/>
+<Loc EndOffset="2512" SrcFileId="1" StartOffset="2500"/>
+</LocList>
+<CondStmnt CovItemId="S13" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="45">
+<Branch CovItemId="B3" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="46">
+<Cond/>
+<LocList>
+<Loc EndOffset="2417" SrcFileId="1" StartOffset="1719"/>
+</LocList>
+<StmntSeq Intrnl_Id="47">
+<LocList>
+<Loc EndOffset="1878" SrcFileId="1" StartOffset="1733"/>
+<Loc EndOffset="2407" SrcFileId="1" StartOffset="1892"/>
+</LocList>
+<BasicStmnt CovItemId="S14" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="48">
+<LocList>
+<Loc EndOffset="1878" SrcFileId="1" StartOffset="1733"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S15" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="49">
+<Branch CovItemId="B5" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="50">
+<Cond>
+<Loc EndOffset="1953" SrcFileId="1" StartOffset="1926"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2164" SrcFileId="1" StartOffset="1975"/>
+</LocList>
+<StmntSeq Intrnl_Id="51">
+<LocList>
+<Loc EndOffset="2137" SrcFileId="1" StartOffset="1975"/>
+<Loc EndOffset="2164" SrcFileId="1" StartOffset="2158"/>
+</LocList>
+<CondStmnt CovItemId="S16" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="52">
+<Branch CovItemId="B6" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="53">
+<Cond/>
+<LocList>
+<Loc EndOffset="2137" SrcFileId="1" StartOffset="1996"/>
+</LocList>
+<StmntSeq Intrnl_Id="54">
+<LocList>
+<Loc EndOffset="2115" SrcFileId="1" StartOffset="2102"/>
+</LocList>
+<BasicStmnt CovItemId="S17" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="55">
+<LocList>
+<Loc EndOffset="2115" SrcFileId="1" StartOffset="2102"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B7" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="56">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="57">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1977" SrcFileId="1" StartOffset="1975"/>
+<LocList>
+<Loc EndOffset="2137" SrcFileId="1" StartOffset="1975"/>
+</LocList>
+<RootTerm CovItemId="C3" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="58">
+<OpTerm BooleanOpId="3" Intrnl_Id="59">
+<BasicBoolTerm Intrnl_Id="60">
+<LocList>
+<Loc EndOffset="1994" SrcFileId="1" StartOffset="1980"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="1980" SrcFileId="1" StartOffset="1979"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S18" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="61">
+<LocList>
+<Loc EndOffset="2164" SrcFileId="1" StartOffset="2158"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B8" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="62">
+<Cond>
+<Loc EndOffset="2207" SrcFileId="1" StartOffset="2181"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2235" SrcFileId="1" StartOffset="2229"/>
+</LocList>
+<StmntSeq Intrnl_Id="63">
+<LocList>
+<Loc EndOffset="2235" SrcFileId="1" StartOffset="2229"/>
+</LocList>
+<BasicStmnt CovItemId="S19" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="64">
+<LocList>
+<Loc EndOffset="2235" SrcFileId="1" StartOffset="2229"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B9" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="65">
+<Cond>
+<Loc EndOffset="2282" SrcFileId="1" StartOffset="2252"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2393" SrcFileId="1" StartOffset="2380"/>
+</LocList>
+<StmntSeq Intrnl_Id="66">
+<LocList>
+<Loc EndOffset="2393" SrcFileId="1" StartOffset="2380"/>
+</LocList>
+<BasicStmnt CovItemId="S20" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="67">
+<LocList>
+<Loc EndOffset="2393" SrcFileId="1" StartOffset="2380"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B10" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="68">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="69">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1898" SrcFileId="1" StartOffset="1892"/>
+<LocList>
+<Loc EndOffset="2407" SrcFileId="1" StartOffset="1892"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B4" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="70">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="71">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="1687" SrcFileId="1" StartOffset="1685"/>
+<LocList>
+<Loc EndOffset="2417" SrcFileId="1" StartOffset="1685"/>
+</LocList>
+<RootTerm CovItemId="C2" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="72">
+<BasicBoolTerm Intrnl_Id="73">
+<LocList>
+<Loc EndOffset="1717" SrcFileId="1" StartOffset="1689"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S21" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="74">
+<LocList>
+<Loc EndOffset="2452" SrcFileId="1" StartOffset="2427"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S22" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="75">
+<LocList>
+<Loc EndOffset="2491" SrcFileId="1" StartOffset="2461"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S23" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="76">
+<LocList>
+<Loc EndOffset="2512" SrcFileId="1" StartOffset="2500"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="974" HierarchyLvlTypeId="6" Intrnl_Id="77" Name="onDelete">
+<Header>
+<Loc EndOffset="2578" SrcFileId="1" StartOffset="2524"/>
+</Header>
+<LocList>
+<Loc EndOffset="3094" SrcFileId="1" StartOffset="2524"/>
+</LocList>
+<StmntSeq Intrnl_Id="78">
+<LocList>
+<Loc EndOffset="2644" SrcFileId="1" StartOffset="2589"/>
+<Loc EndOffset="2776" SrcFileId="1" StartOffset="2662"/>
+<Loc EndOffset="3088" SrcFileId="1" StartOffset="2785"/>
+</LocList>
+<CondStmnt CovItemId="S24" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="79">
+<Branch CovItemId="B11" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="80">
+<Cond/>
+<LocList>
+<Loc EndOffset="2644" SrcFileId="1" StartOffset="2613"/>
+</LocList>
+<StmntSeq Intrnl_Id="81">
+<LocList>
+<Loc EndOffset="2634" SrcFileId="1" StartOffset="2627"/>
+</LocList>
+<BasicStmnt CovItemId="S25" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="82">
+<LocList>
+<Loc EndOffset="2634" SrcFileId="1" StartOffset="2627"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B12" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="83">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="84">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2591" SrcFileId="1" StartOffset="2589"/>
+<LocList>
+<Loc EndOffset="2644" SrcFileId="1" StartOffset="2589"/>
+</LocList>
+<RootTerm CovItemId="C4" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="85">
+<BasicBoolTerm Intrnl_Id="86">
+<LocList>
+<Loc EndOffset="2611" SrcFileId="1" StartOffset="2592"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S26" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="87">
+<LocList>
+<Loc EndOffset="2776" SrcFileId="1" StartOffset="2662"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S27" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="88">
+<Branch CovItemId="B13" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="89">
+<Cond>
+<Loc EndOffset="2842" SrcFileId="1" StartOffset="2815"/>
+</Cond>
+<LocList>
+<Loc EndOffset="2994" SrcFileId="1" StartOffset="2860"/>
+</LocList>
+<StmntSeq Intrnl_Id="90">
+<LocList>
+<Loc EndOffset="2971" SrcFileId="1" StartOffset="2860"/>
+<Loc EndOffset="2994" SrcFileId="1" StartOffset="2988"/>
+</LocList>
+<LoopStmnt CovItemId="S28" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="91" MltplExecId="L1-2" MltplExecPrefix="org.codecover.simplejavaapp.controller.AppController.java" NvrExecId="L1-0" NvrExecPrefix="org.codecover.simplejavaapp.controller.AppController.java" OnceExecutedId="L1-1" OnceExecutedPrefix="org.codecover.simplejavaapp.controller.AppController.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="92">
+<LocList>
+<Loc EndOffset="2953" SrcFileId="1" StartOffset="2912"/>
+</LocList>
+<BasicStmnt CovItemId="S29" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="93">
+<LocList>
+<Loc EndOffset="2953" SrcFileId="1" StartOffset="2912"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<Keyword EndOffset="2863" SrcFileId="1" StartOffset="2860"/>
+<LocList>
+<Loc EndOffset="2971" SrcFileId="1" StartOffset="2860"/>
+</LocList>
+</LoopStmnt>
+<BasicStmnt CovItemId="S30" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="94">
+<LocList>
+<Loc EndOffset="2994" SrcFileId="1" StartOffset="2988"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B14" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="95">
+<Cond>
+<Loc EndOffset="3033" SrcFileId="1" StartOffset="3007"/>
+</Cond>
+<LocList/>
+<StmntSeq Intrnl_Id="96">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B15" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="97">
+<Cond>
+<Loc EndOffset="3077" SrcFileId="1" StartOffset="3047"/>
+</Cond>
+<LocList/>
+<StmntSeq Intrnl_Id="98">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B16" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="99">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="100">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="2791" SrcFileId="1" StartOffset="2785"/>
+<LocList>
+<Loc EndOffset="3088" SrcFileId="1" StartOffset="2785"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="975" HierarchyLvlTypeId="6" Intrnl_Id="101" Name="onOpen">
+<Header>
+<Loc EndOffset="3134" SrcFileId="1" StartOffset="3100"/>
+</Header>
+<LocList>
+<Loc EndOffset="4480" SrcFileId="1" StartOffset="3100"/>
+</LocList>
+<StmntSeq Intrnl_Id="102">
+<LocList>
+<Loc EndOffset="3865" SrcFileId="1" StartOffset="3145"/>
+<Loc EndOffset="3917" SrcFileId="1" StartOffset="3875"/>
+<Loc EndOffset="3976" SrcFileId="1" StartOffset="3927"/>
+<Loc EndOffset="4054" SrcFileId="1" StartOffset="4004"/>
+<Loc EndOffset="4109" SrcFileId="1" StartOffset="4068"/>
+<Loc EndOffset="4152" SrcFileId="1" StartOffset="4122"/>
+<Loc EndOffset="4474" SrcFileId="1" StartOffset="3986"/>
+</LocList>
+<CondStmnt CovItemId="S31" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="103">
+<Branch CovItemId="B17" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="104">
+<Cond/>
+<LocList>
+<Loc EndOffset="3865" SrcFileId="1" StartOffset="3179"/>
+</LocList>
+<StmntSeq Intrnl_Id="105">
+<LocList>
+<Loc EndOffset="3338" SrcFileId="1" StartOffset="3193"/>
+<Loc EndOffset="3855" SrcFileId="1" StartOffset="3352"/>
+</LocList>
+<BasicStmnt CovItemId="S32" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="106">
+<LocList>
+<Loc EndOffset="3338" SrcFileId="1" StartOffset="3193"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S33" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="107">
+<Branch CovItemId="B19" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="108">
+<Cond>
+<Loc EndOffset="3413" SrcFileId="1" StartOffset="3386"/>
+</Cond>
+<LocList>
+<Loc EndOffset="3618" SrcFileId="1" StartOffset="3435"/>
+</LocList>
+<StmntSeq Intrnl_Id="109">
+<LocList>
+<Loc EndOffset="3591" SrcFileId="1" StartOffset="3435"/>
+<Loc EndOffset="3618" SrcFileId="1" StartOffset="3612"/>
+</LocList>
+<CondStmnt CovItemId="S34" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="110">
+<Branch CovItemId="B20" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="111">
+<Cond/>
+<LocList>
+<Loc EndOffset="3591" SrcFileId="1" StartOffset="3456"/>
+</LocList>
+<StmntSeq Intrnl_Id="112">
+<LocList>
+<Loc EndOffset="3569" SrcFileId="1" StartOffset="3562"/>
+</LocList>
+<BasicStmnt CovItemId="S35" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="113">
+<LocList>
+<Loc EndOffset="3569" SrcFileId="1" StartOffset="3562"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B21" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="114">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="115">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="3437" SrcFileId="1" StartOffset="3435"/>
+<LocList>
+<Loc EndOffset="3591" SrcFileId="1" StartOffset="3435"/>
+</LocList>
+<RootTerm CovItemId="C6" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="116">
+<OpTerm BooleanOpId="3" Intrnl_Id="117">
+<BasicBoolTerm Intrnl_Id="118">
+<LocList>
+<Loc EndOffset="3454" SrcFileId="1" StartOffset="3440"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="3440" SrcFileId="1" StartOffset="3439"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S36" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="119">
+<LocList>
+<Loc EndOffset="3618" SrcFileId="1" StartOffset="3612"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B22" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="120">
+<Cond>
+<Loc EndOffset="3661" SrcFileId="1" StartOffset="3635"/>
+</Cond>
+<LocList>
+<Loc EndOffset="3689" SrcFileId="1" StartOffset="3683"/>
+</LocList>
+<StmntSeq Intrnl_Id="121">
+<LocList>
+<Loc EndOffset="3689" SrcFileId="1" StartOffset="3683"/>
+</LocList>
+<BasicStmnt CovItemId="S37" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="122">
+<LocList>
+<Loc EndOffset="3689" SrcFileId="1" StartOffset="3683"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B23" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="123">
+<Cond>
+<Loc EndOffset="3736" SrcFileId="1" StartOffset="3706"/>
+</Cond>
+<LocList>
+<Loc EndOffset="3841" SrcFileId="1" StartOffset="3834"/>
+</LocList>
+<StmntSeq Intrnl_Id="124">
+<LocList>
+<Loc EndOffset="3841" SrcFileId="1" StartOffset="3834"/>
+</LocList>
+<BasicStmnt CovItemId="S38" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="125">
+<LocList>
+<Loc EndOffset="3841" SrcFileId="1" StartOffset="3834"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B24" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="126">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="127">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="3358" SrcFileId="1" StartOffset="3352"/>
+<LocList>
+<Loc EndOffset="3855" SrcFileId="1" StartOffset="3352"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B18" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="128">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="129">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="3147" SrcFileId="1" StartOffset="3145"/>
+<LocList>
+<Loc EndOffset="3865" SrcFileId="1" StartOffset="3145"/>
+</LocList>
+<RootTerm CovItemId="C5" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="130">
+<BasicBoolTerm Intrnl_Id="131">
+<LocList>
+<Loc EndOffset="3177" SrcFileId="1" StartOffset="3149"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S39" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="132">
+<LocList>
+<Loc EndOffset="3917" SrcFileId="1" StartOffset="3875"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S40" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="133">
+<Branch CovItemId="B25" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="134">
+<Cond/>
+<LocList>
+<Loc EndOffset="3976" SrcFileId="1" StartOffset="3945"/>
+</LocList>
+<StmntSeq Intrnl_Id="135">
+<LocList>
+<Loc EndOffset="3966" SrcFileId="1" StartOffset="3959"/>
+</LocList>
+<BasicStmnt CovItemId="S41" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="136">
+<LocList>
+<Loc EndOffset="3966" SrcFileId="1" StartOffset="3959"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B26" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="137">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="138">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="3929" SrcFileId="1" StartOffset="3927"/>
+<LocList>
+<Loc EndOffset="3976" SrcFileId="1" StartOffset="3927"/>
+</LocList>
+<RootTerm CovItemId="C7" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="139">
+<BasicBoolTerm Intrnl_Id="140">
+<LocList>
+<Loc EndOffset="3943" SrcFileId="1" StartOffset="3931"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S43" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="141">
+<LocList>
+<Loc EndOffset="4054" SrcFileId="1" StartOffset="4004"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S44" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="142">
+<LocList>
+<Loc EndOffset="4109" SrcFileId="1" StartOffset="4068"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S45" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="143">
+<LocList>
+<Loc EndOffset="4152" SrcFileId="1" StartOffset="4122"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S42" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="144">
+<Branch CovItemId="B27" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="145">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="146">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B28" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="147">
+<Cond>
+<Loc EndOffset="4201" SrcFileId="1" StartOffset="4163"/>
+</Cond>
+<LocList>
+<Loc EndOffset="4277" SrcFileId="1" StartOffset="4202"/>
+</LocList>
+<StmntSeq Intrnl_Id="148">
+<LocList>
+<Loc EndOffset="4267" SrcFileId="1" StartOffset="4216"/>
+</LocList>
+<BasicStmnt CovItemId="S46" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="149">
+<LocList>
+<Loc EndOffset="4267" SrcFileId="1" StartOffset="4216"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B29" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="150">
+<Cond>
+<Loc EndOffset="4300" SrcFileId="1" StartOffset="4278"/>
+</Cond>
+<LocList>
+<Loc EndOffset="4376" SrcFileId="1" StartOffset="4301"/>
+</LocList>
+<StmntSeq Intrnl_Id="151">
+<LocList>
+<Loc EndOffset="4366" SrcFileId="1" StartOffset="4315"/>
+</LocList>
+<BasicStmnt CovItemId="S47" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="152">
+<LocList>
+<Loc EndOffset="4366" SrcFileId="1" StartOffset="4315"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B30" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="153">
+<Cond>
+<Loc EndOffset="4398" SrcFileId="1" StartOffset="4377"/>
+</Cond>
+<LocList>
+<Loc EndOffset="4474" SrcFileId="1" StartOffset="4399"/>
+</LocList>
+<StmntSeq Intrnl_Id="154">
+<LocList>
+<Loc EndOffset="4464" SrcFileId="1" StartOffset="4413"/>
+</LocList>
+<BasicStmnt CovItemId="S48" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="155">
+<LocList>
+<Loc EndOffset="4464" SrcFileId="1" StartOffset="4413"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="3989" SrcFileId="1" StartOffset="3986"/>
+<LocList>
+<Loc EndOffset="4474" SrcFileId="1" StartOffset="3986"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="976" HierarchyLvlTypeId="6" Intrnl_Id="156" Name="onQuit">
+<Header>
+<Loc EndOffset="4541" SrcFileId="1" StartOffset="4486"/>
+</Header>
+<LocList>
+<Loc EndOffset="4769" SrcFileId="1" StartOffset="4486"/>
+</LocList>
+<StmntSeq Intrnl_Id="157">
+<LocList>
+<Loc EndOffset="4668" SrcFileId="1" StartOffset="4552"/>
+<Loc EndOffset="4763" SrcFileId="1" StartOffset="4748"/>
+</LocList>
+<LoopStmnt CovItemId="S49" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="158" MltplExecId="L2-2" MltplExecPrefix="org.codecover.simplejavaapp.controller.AppController.java" NvrExecId="L2-0" NvrExecPrefix="org.codecover.simplejavaapp.controller.AppController.java" OnceExecutedId="L2-1" OnceExecutedPrefix="org.codecover.simplejavaapp.controller.AppController.java" OptBodyExec="true">
+<StmntSeq Intrnl_Id="159">
+<LocList>
+<Loc EndOffset="4658" SrcFileId="1" StartOffset="4595"/>
+</LocList>
+<CondStmnt CovItemId="S50" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="160">
+<Branch CovItemId="B31" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="161">
+<Cond/>
+<LocList>
+<Loc EndOffset="4658" SrcFileId="1" StartOffset="4619"/>
+</LocList>
+<StmntSeq Intrnl_Id="162">
+<LocList>
+<Loc EndOffset="4644" SrcFileId="1" StartOffset="4637"/>
+</LocList>
+<BasicStmnt CovItemId="S51" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="163">
+<LocList>
+<Loc EndOffset="4644" SrcFileId="1" StartOffset="4637"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B32" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="164">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="165">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="4597" SrcFileId="1" StartOffset="4595"/>
+<LocList>
+<Loc EndOffset="4658" SrcFileId="1" StartOffset="4595"/>
+</LocList>
+<RootTerm CovItemId="C8" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="166">
+<OpTerm BooleanOpId="3" Intrnl_Id="167">
+<BasicBoolTerm Intrnl_Id="168">
+<LocList>
+<Loc EndOffset="4617" SrcFileId="1" StartOffset="4600"/>
+</LocList>
+</BasicBoolTerm>
+<LocList>
+<Loc EndOffset="4600" SrcFileId="1" StartOffset="4599"/>
+</LocList>
+</OpTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+<Keyword EndOffset="4555" SrcFileId="1" StartOffset="4552"/>
+<LocList>
+<Loc EndOffset="4668" SrcFileId="1" StartOffset="4552"/>
+</LocList>
+</LoopStmnt>
+<BasicStmnt CovItemId="S52" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="169">
+<LocList>
+<Loc EndOffset="4763" SrcFileId="1" StartOffset="4748"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="977" HierarchyLvlTypeId="6" Intrnl_Id="170" Name="onSave">
+<Header>
+<Loc EndOffset="4812" SrcFileId="1" StartOffset="4775"/>
+</Header>
+<LocList>
+<Loc EndOffset="5031" SrcFileId="1" StartOffset="4775"/>
+</LocList>
+<StmntSeq Intrnl_Id="171">
+<LocList>
+<Loc EndOffset="4865" SrcFileId="1" StartOffset="4823"/>
+<Loc EndOffset="5025" SrcFileId="1" StartOffset="4875"/>
+</LocList>
+<BasicStmnt CovItemId="S53" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="172">
+<LocList>
+<Loc EndOffset="4865" SrcFileId="1" StartOffset="4823"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S54" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="173">
+<Branch CovItemId="B33" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="174">
+<Cond/>
+<LocList>
+<Loc EndOffset="4941" SrcFileId="1" StartOffset="4893"/>
+</LocList>
+<StmntSeq Intrnl_Id="175">
+<LocList>
+<Loc EndOffset="4931" SrcFileId="1" StartOffset="4907"/>
+</LocList>
+<BasicStmnt CovItemId="S55" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="176">
+<LocList>
+<Loc EndOffset="4931" SrcFileId="1" StartOffset="4907"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B34" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="177">
+<Cond>
+<Loc EndOffset="4946" SrcFileId="1" StartOffset="4942"/>
+</Cond>
+<LocList>
+<Loc EndOffset="5025" SrcFileId="1" StartOffset="4947"/>
+</LocList>
+<StmntSeq Intrnl_Id="178">
+<LocList>
+<Loc EndOffset="4990" SrcFileId="1" StartOffset="4961"/>
+<Loc EndOffset="5015" SrcFileId="1" StartOffset="5003"/>
+</LocList>
+<BasicStmnt CovItemId="S56" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="179">
+<LocList>
+<Loc EndOffset="4990" SrcFileId="1" StartOffset="4961"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S57" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="180">
+<LocList>
+<Loc EndOffset="5015" SrcFileId="1" StartOffset="5003"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="4877" SrcFileId="1" StartOffset="4875"/>
+<LocList>
+<Loc EndOffset="5025" SrcFileId="1" StartOffset="4875"/>
+</LocList>
+<RootTerm CovItemId="C9" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="181">
+<BasicBoolTerm Intrnl_Id="182">
+<LocList>
+<Loc EndOffset="4891" SrcFileId="1" StartOffset="4879"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="978" HierarchyLvlTypeId="6" Intrnl_Id="183" Name="onSaveAs">
+<Header>
+<Loc EndOffset="5076" SrcFileId="1" StartOffset="5037"/>
+</Header>
+<LocList>
+<Loc EndOffset="5286" SrcFileId="1" StartOffset="5037"/>
+</LocList>
+<StmntSeq Intrnl_Id="184">
+<LocList>
+<Loc EndOffset="5131" SrcFileId="1" StartOffset="5087"/>
+<Loc EndOffset="5280" SrcFileId="1" StartOffset="5141"/>
+</LocList>
+<BasicStmnt CovItemId="S58" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="185">
+<LocList>
+<Loc EndOffset="5131" SrcFileId="1" StartOffset="5087"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S59" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="186">
+<Branch CovItemId="B35" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="187">
+<Cond/>
+<LocList>
+<Loc EndOffset="5196" SrcFileId="1" StartOffset="5159"/>
+</LocList>
+<StmntSeq Intrnl_Id="188">
+<LocList>
+<Loc EndOffset="5186" SrcFileId="1" StartOffset="5173"/>
+</LocList>
+<BasicStmnt CovItemId="S60" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="189">
+<LocList>
+<Loc EndOffset="5186" SrcFileId="1" StartOffset="5173"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B36" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="190">
+<Cond>
+<Loc EndOffset="5201" SrcFileId="1" StartOffset="5197"/>
+</Cond>
+<LocList>
+<Loc EndOffset="5280" SrcFileId="1" StartOffset="5202"/>
+</LocList>
+<StmntSeq Intrnl_Id="191">
+<LocList>
+<Loc EndOffset="5245" SrcFileId="1" StartOffset="5216"/>
+<Loc EndOffset="5270" SrcFileId="1" StartOffset="5258"/>
+</LocList>
+<BasicStmnt CovItemId="S61" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="192">
+<LocList>
+<Loc EndOffset="5245" SrcFileId="1" StartOffset="5216"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S62" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="193">
+<LocList>
+<Loc EndOffset="5270" SrcFileId="1" StartOffset="5258"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5143" SrcFileId="1" StartOffset="5141"/>
+<LocList>
+<Loc EndOffset="5280" SrcFileId="1" StartOffset="5141"/>
+</LocList>
+<RootTerm CovItemId="C10" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="194">
+<BasicBoolTerm Intrnl_Id="195">
+<LocList>
+<Loc EndOffset="5157" SrcFileId="1" StartOffset="5145"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="979" HierarchyLvlTypeId="6" Intrnl_Id="196" Name="save">
+<Header>
+<Loc EndOffset="5335" SrcFileId="1" StartOffset="5292"/>
+</Header>
+<LocList>
+<Loc EndOffset="5726" SrcFileId="1" StartOffset="5292"/>
+</LocList>
+<StmntSeq Intrnl_Id="197">
+<LocList>
+<Loc EndOffset="5393" SrcFileId="1" StartOffset="5364"/>
+<Loc EndOffset="5720" SrcFileId="1" StartOffset="5346"/>
+</LocList>
+<BasicStmnt CovItemId="S64" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="198">
+<LocList>
+<Loc EndOffset="5393" SrcFileId="1" StartOffset="5364"/>
+</LocList>
+</BasicStmnt>
+<CondStmnt CovItemId="S63" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="199">
+<Branch CovItemId="B37" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="200">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="201">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B38" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="202">
+<Cond>
+<Loc EndOffset="5442" SrcFileId="1" StartOffset="5404"/>
+</Cond>
+<LocList>
+<Loc EndOffset="5517" SrcFileId="1" StartOffset="5443"/>
+</LocList>
+<StmntSeq Intrnl_Id="203">
+<LocList>
+<Loc EndOffset="5507" SrcFileId="1" StartOffset="5457"/>
+</LocList>
+<BasicStmnt CovItemId="S65" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="204">
+<LocList>
+<Loc EndOffset="5507" SrcFileId="1" StartOffset="5457"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B39" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="205">
+<Cond>
+<Loc EndOffset="5548" SrcFileId="1" StartOffset="5518"/>
+</Cond>
+<LocList>
+<Loc EndOffset="5623" SrcFileId="1" StartOffset="5549"/>
+</LocList>
+<StmntSeq Intrnl_Id="206">
+<LocList>
+<Loc EndOffset="5613" SrcFileId="1" StartOffset="5563"/>
+</LocList>
+<BasicStmnt CovItemId="S66" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="207">
+<LocList>
+<Loc EndOffset="5613" SrcFileId="1" StartOffset="5563"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B40" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="208">
+<Cond>
+<Loc EndOffset="5645" SrcFileId="1" StartOffset="5624"/>
+</Cond>
+<LocList>
+<Loc EndOffset="5720" SrcFileId="1" StartOffset="5646"/>
+</LocList>
+<StmntSeq Intrnl_Id="209">
+<LocList>
+<Loc EndOffset="5710" SrcFileId="1" StartOffset="5660"/>
+</LocList>
+<BasicStmnt CovItemId="S67" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="210">
+<LocList>
+<Loc EndOffset="5710" SrcFileId="1" StartOffset="5660"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="5349" SrcFileId="1" StartOffset="5346"/>
+<LocList>
+<Loc EndOffset="5720" SrcFileId="1" StartOffset="5346"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="981" HierarchyLvlTypeId="5" Intrnl_Id="211" Name="AppViewListener">
+<Header>
+<Loc EndOffset="5791" SrcFileId="1" StartOffset="5732"/>
+</Header>
+<LocList>
+<Loc EndOffset="7032" SrcFileId="1" StartOffset="5732"/>
+</LocList>
+<HierarchyLvl HierarchyLvlId="980" HierarchyLvlTypeId="6" Intrnl_Id="212" Name="update">
+<Header>
+<Loc EndOffset="6125" SrcFileId="1" StartOffset="6058"/>
+</Header>
+<LocList>
+<Loc EndOffset="7026" SrcFileId="1" StartOffset="6058"/>
+</LocList>
+<StmntSeq Intrnl_Id="213">
+<LocList>
+<Loc EndOffset="7016" SrcFileId="1" StartOffset="6140"/>
+</LocList>
+<CondStmnt CovItemId="S68" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="214">
+<Branch CovItemId="B41" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="215">
+<Cond>
+<Loc EndOffset="6200" SrcFileId="1" StartOffset="6177"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6271" SrcFileId="1" StartOffset="6222"/>
+</LocList>
+<StmntSeq Intrnl_Id="216">
+<LocList>
+<Loc EndOffset="6244" SrcFileId="1" StartOffset="6222"/>
+<Loc EndOffset="6271" SrcFileId="1" StartOffset="6265"/>
+</LocList>
+<BasicStmnt CovItemId="S69" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="217">
+<LocList>
+<Loc EndOffset="6244" SrcFileId="1" StartOffset="6222"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S70" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="218">
+<LocList>
+<Loc EndOffset="6271" SrcFileId="1" StartOffset="6265"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B42" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="219">
+<Cond>
+<Loc EndOffset="6305" SrcFileId="1" StartOffset="6288"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6388" SrcFileId="1" StartOffset="6327"/>
+</LocList>
+<StmntSeq Intrnl_Id="220">
+<LocList>
+<Loc EndOffset="6361" SrcFileId="1" StartOffset="6327"/>
+<Loc EndOffset="6388" SrcFileId="1" StartOffset="6382"/>
+</LocList>
+<BasicStmnt CovItemId="S71" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="221">
+<LocList>
+<Loc EndOffset="6361" SrcFileId="1" StartOffset="6327"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S72" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="222">
+<LocList>
+<Loc EndOffset="6388" SrcFileId="1" StartOffset="6382"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B43" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="223">
+<Cond>
+<Loc EndOffset="6424" SrcFileId="1" StartOffset="6405"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6491" SrcFileId="1" StartOffset="6446"/>
+</LocList>
+<StmntSeq Intrnl_Id="224">
+<LocList>
+<Loc EndOffset="6464" SrcFileId="1" StartOffset="6446"/>
+<Loc EndOffset="6491" SrcFileId="1" StartOffset="6485"/>
+</LocList>
+<BasicStmnt CovItemId="S73" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="225">
+<LocList>
+<Loc EndOffset="6464" SrcFileId="1" StartOffset="6446"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S74" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="226">
+<LocList>
+<Loc EndOffset="6491" SrcFileId="1" StartOffset="6485"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B44" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="227">
+<Cond>
+<Loc EndOffset="6529" SrcFileId="1" StartOffset="6508"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6596" SrcFileId="1" StartOffset="6551"/>
+</LocList>
+<StmntSeq Intrnl_Id="228">
+<LocList>
+<Loc EndOffset="6569" SrcFileId="1" StartOffset="6551"/>
+<Loc EndOffset="6596" SrcFileId="1" StartOffset="6590"/>
+</LocList>
+<BasicStmnt CovItemId="S75" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="229">
+<LocList>
+<Loc EndOffset="6569" SrcFileId="1" StartOffset="6551"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S76" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="230">
+<LocList>
+<Loc EndOffset="6596" SrcFileId="1" StartOffset="6590"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B45" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="231">
+<Cond>
+<Loc EndOffset="6628" SrcFileId="1" StartOffset="6613"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6692" SrcFileId="1" StartOffset="6650"/>
+</LocList>
+<StmntSeq Intrnl_Id="232">
+<LocList>
+<Loc EndOffset="6665" SrcFileId="1" StartOffset="6650"/>
+<Loc EndOffset="6692" SrcFileId="1" StartOffset="6686"/>
+</LocList>
+<BasicStmnt CovItemId="S77" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="233">
+<LocList>
+<Loc EndOffset="6665" SrcFileId="1" StartOffset="6650"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S78" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="234">
+<LocList>
+<Loc EndOffset="6692" SrcFileId="1" StartOffset="6686"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B46" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="235">
+<Cond>
+<Loc EndOffset="6724" SrcFileId="1" StartOffset="6709"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6805" SrcFileId="1" StartOffset="6746"/>
+</LocList>
+<StmntSeq Intrnl_Id="236">
+<LocList>
+<Loc EndOffset="6778" SrcFileId="1" StartOffset="6746"/>
+<Loc EndOffset="6805" SrcFileId="1" StartOffset="6799"/>
+</LocList>
+<BasicStmnt CovItemId="S79" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="237">
+<LocList>
+<Loc EndOffset="6778" SrcFileId="1" StartOffset="6746"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S80" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="238">
+<LocList>
+<Loc EndOffset="6805" SrcFileId="1" StartOffset="6799"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B47" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="239">
+<Cond>
+<Loc EndOffset="6837" SrcFileId="1" StartOffset="6822"/>
+</Cond>
+<LocList>
+<Loc EndOffset="6901" SrcFileId="1" StartOffset="6859"/>
+</LocList>
+<StmntSeq Intrnl_Id="240">
+<LocList>
+<Loc EndOffset="6874" SrcFileId="1" StartOffset="6859"/>
+<Loc EndOffset="6901" SrcFileId="1" StartOffset="6895"/>
+</LocList>
+<BasicStmnt CovItemId="S81" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="241">
+<LocList>
+<Loc EndOffset="6874" SrcFileId="1" StartOffset="6859"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S82" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="242">
+<LocList>
+<Loc EndOffset="6901" SrcFileId="1" StartOffset="6895"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B48" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="false" Intrnl_Id="243">
+<Cond>
+<Loc EndOffset="6936" SrcFileId="1" StartOffset="6918"/>
+</Cond>
+<LocList>
+<Loc EndOffset="7002" SrcFileId="1" StartOffset="6958"/>
+</LocList>
+<StmntSeq Intrnl_Id="244">
+<LocList>
+<Loc EndOffset="6975" SrcFileId="1" StartOffset="6958"/>
+<Loc EndOffset="7002" SrcFileId="1" StartOffset="6996"/>
+</LocList>
+<BasicStmnt CovItemId="S83" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="245">
+<LocList>
+<Loc EndOffset="6975" SrcFileId="1" StartOffset="6958"/>
+</LocList>
+</BasicStmnt>
+<BasicStmnt CovItemId="S84" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Intrnl_Id="246">
+<LocList>
+<Loc EndOffset="7002" SrcFileId="1" StartOffset="6996"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B49" CovItemPrefix="org.codecover.simplejavaapp.controller.AppController.java" Implct="true" Intrnl_Id="247">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="248">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="6146" SrcFileId="1" StartOffset="6140"/>
+<LocList>
+<Loc EndOffset="7016" SrcFileId="1" StartOffset="6140"/>
+</LocList>
+</CondStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+<HierarchyLvl HierarchyLvlId="984" HierarchyLvlTypeId="5" Intrnl_Id="249" Name="SimpleJavaApp">
+<Header>
+<Loc EndOffset="186" SrcFileId="2" StartOffset="160"/>
+</Header>
+<LocList>
+<Loc EndOffset="509" SrcFileId="2" StartOffset="160"/>
+</LocList>
+<StmntSeq Intrnl_Id="250">
+<LocList>
+<Loc EndOffset="269" SrcFileId="2" StartOffset="193"/>
+</LocList>
+<BasicStmnt CovItemId="S1" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Intrnl_Id="251">
+<LocList>
+<Loc EndOffset="269" SrcFileId="2" StartOffset="193"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+<HierarchyLvl HierarchyLvlId="983" HierarchyLvlTypeId="6" Intrnl_Id="252" Name="main">
+<Header>
+<Loc EndOffset="348" SrcFileId="2" StartOffset="310"/>
+</Header>
+<LocList>
+<Loc EndOffset="507" SrcFileId="2" StartOffset="310"/>
+</LocList>
+<StmntSeq Intrnl_Id="253">
+<LocList>
+<Loc EndOffset="456" SrcFileId="2" StartOffset="359"/>
+<Loc EndOffset="501" SrcFileId="2" StartOffset="474"/>
+</LocList>
+<CondStmnt CovItemId="S2" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Intrnl_Id="254">
+<Branch CovItemId="B1" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Implct="false" Intrnl_Id="255">
+<Cond/>
+<LocList>
+<Loc EndOffset="456" SrcFileId="2" StartOffset="375"/>
+</LocList>
+<StmntSeq Intrnl_Id="256">
+<LocList>
+<Loc EndOffset="446" SrcFileId="2" StartOffset="389"/>
+</LocList>
+<BasicStmnt CovItemId="S3" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Intrnl_Id="257">
+<LocList>
+<Loc EndOffset="446" SrcFileId="2" StartOffset="389"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</Branch>
+<Branch CovItemId="B2" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Implct="true" Intrnl_Id="258">
+<Cond/>
+<LocList/>
+<StmntSeq Intrnl_Id="259">
+<LocList/>
+</StmntSeq>
+</Branch>
+<Keyword EndOffset="361" SrcFileId="2" StartOffset="359"/>
+<LocList>
+<Loc EndOffset="456" SrcFileId="2" StartOffset="359"/>
+</LocList>
+<RootTerm CovItemId="C1" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Intrnl_Id="260">
+<BasicBoolTerm Intrnl_Id="261">
+<LocList>
+<Loc EndOffset="373" SrcFileId="2" StartOffset="363"/>
+</LocList>
+</BasicBoolTerm>
+</RootTerm>
+</CondStmnt>
+<BasicStmnt CovItemId="S4" CovItemPrefix="org.codecover.simplejavaapp.SimpleJavaApp.java" Intrnl_Id="262">
+<LocList>
+<Loc EndOffset="501" SrcFileId="2" StartOffset="474"/>
+</LocList>
+</BasicStmnt>
+</StmntSeq>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</HierarchyLvl>
+</MASTRoot>
+</TestSessionContainer>
