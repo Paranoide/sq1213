@@ -10,5 +10,5 @@
 \beamer@subsectionintoc {3}{2}{Technische Integration}{11}{0}{3}
 \beamer@sectionintoc {4}{CodeCover Demo}{13}{0}{4}
 \beamer@subsectionintoc {4}{1}{Kommandozeile}{13}{0}{4}
-\beamer@subsectionintoc {4}{2}{Eclipse}{19}{0}{4}
-\beamer@sectionintoc {5}{Fazit}{25}{0}{5}
+\beamer@subsectionintoc {4}{2}{Eclipse}{20}{0}{4}
+\beamer@sectionintoc {5}{Fazit}{26}{0}{5}
