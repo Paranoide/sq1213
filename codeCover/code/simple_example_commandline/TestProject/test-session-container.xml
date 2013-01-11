@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1357529574339" TestSessionContainerId="a5b2c7ae-b3ed-4faf-8e6f-a22485ff8b0a" version="1.0">
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1357873995264" TestSessionContainerId="9d01aa94-3a80-4f04-a122-c049f5236bd3" version="1.0">
 <SrcFileList>
 <SrcFile Content="package main;&#13;&#10;&#13;&#10;public class Main&#13;&#10;{&#13;&#10;&#9;public static void main(String[] args)&#13;&#10;&#9;{&#13;&#10;&#9;&#9;boolean a, b, c, d;&#13;&#10;&#13;&#10;&#9;&#9;a = true;&#13;&#10;&#9;&#9;b = true;&#13;&#10;&#9;&#9;c = false;&#13;&#10;&#9;&#9;d = false;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;if (a || b)&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;System.out.println(&quot;a == true&quot;);&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;while ((a &amp;&amp; b) || (c &amp;&amp; d))&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;System.out.println(&quot;(a &amp;&amp; b) || (c &amp;&amp; d)&quot;);&#13;&#10;&#9;&#9;&#9;a = false;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;for (int t = 0; t &lt; 100; t++)&#13;&#10;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;if (t &gt; 10)&#13;&#10;&#9;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;t &gt; 10&quot;);&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;&#13;&#10;&#9;&#9;&#9;if (t == 100)&#13;&#10;&#9;&#9;&#9;{&#13;&#10;&#9;&#9;&#9;&#9;System.out.println(&quot;t == 100&quot;);&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;}&#13;&#10;" Filename="Main.java" Intrnl_Id="1"/>
 </SrcFileList>
@@ -283,8 +283,8 @@
 </HierarchyLvl>
 </HierarchyLvl>
 </MASTRoot>
-<TestSession Comment="The first test session" Date="1357530214182" Name="TestSession1">
-<TestCase Comment="This is a test case containing all coverage results cause no startTestCase methods where captured." Date="1357529996823" Name="UNNAMED TESTCASE">
+<TestSession Comment="The first test session" Date="1357874201530" Name="TestSession1">
+<TestCase Comment="This is a test case containing all coverage results cause no startTestCase methods where captured." Date="1357874111269" Name="UNNAMED TESTCASE">
 <CovList>
 <CovPrefix CovItemPrefix="main.Main.java">
 <Cov CovItemId="B1" Value="1"/>
