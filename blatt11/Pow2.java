@@ -14,26 +14,41 @@ public class Pow2 {
      * @param n Exponent
      * @return n-te Potenz zur Basis x
      */
-    public static double pow2(double x, int n) {
-
+    public static double pow2(double x, int n)
+    {
         double res;
         int i;
-
         i = n;
-        if (n < 0) {
+        if (n < 0)
+        {
+        
             i = -n;
+            
         }
 
+        
         res = 1.0;
-        while (i > 0) {
+                
+        
+        while (i > 0)
+        {
+        
             res = res * x;
             i = i - 1;
+            
         }
 
-        if (n < 0) {
+        if (n < 0)
+        {
+        
             res = 1 / res;
+            
         }
 
         return res;
     }
 }
+
+
+
+
