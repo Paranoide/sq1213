@@ -1,0 +1,25 @@
+﻿5.1.4 End-Of-Line Comments
+
+Diese Konvention trägt dazu bei, dass erfahrene Java Programmierer schneller erkennen können, um was für Kommentare es sich handelt. Dabei soll "//" suggerieren, dass es sich (höchstwahrscheinlich) um auskommentierten Code handelt und soll sich damit zu beispielsweise "/* ... */" abgrenzen, da letzteres für tatsächliche, hilfreiche Kommentare genutzt wird. Ein Programmierer weiß dadurch sofort genau, wo er zu gucken hat, wenn er beispielsweise nach auskommentierten Code sucht.
+
+-------------------------------------------------------------------------------
+
+7.3 return Statements
+A return statement with a value should not use parentheses unless they make the return value more obvious in some way. Example:
+
+return;
+
+return myDisk.size();
+
+return (size ? size : defaultSize);
+
+
+Die Klammern wegfallen zu lassen ist aus zwei Gründen sinnvoll:
+
+* Das statement ist als Satz lesbar: "return myDisk.size()" => "gib myDisk.size() zurück".
+* Klammern (als Alternative) würden return als eine Funktion suggerieren, bei dem der Rückgabewert als Parameter angegeben wird, was einer imperativen Sprache entgegen spräche.
+
+Daher gibt es auch Ausnahmefälle wie oben, denn "return size ? size : defaultSize;" würde sich vielmehr als
+"(return size) ? size : defaultSize;" lesen, was nicht der Semantik (und Syntax) entspricht.
+
+
