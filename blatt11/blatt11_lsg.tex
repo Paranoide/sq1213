@@ -1,0 +1,121 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage{ulem}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{ngerman}
+\usepackage{graphicx}
+\usepackage{epic}
+\usepackage{enumerate}
+\usepackage{tabu}
+\usepackage [latin1]{inputenc}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\geometry{a4paper,left=15mm,right=25mm,top=20mm,bottom=25mm}
+%\renewcommand{\baselinestretch}{1.5}
+\newcommand{\ol}{\overline}
+\newcommand{\makeline}{\hrule\vspace{5pt}}
+\newcommand{\ip}[2]{\left< #1, #2 \right>}
+
+\title{11. Übungsblatt zu Software Qualität}
+\author{Michel Meyer, Manuel Schwarz}
+
+\begin{document}
+  \maketitle
+
+  \section*{Aufgabe 11.1 - Mutationen-Test}
+  \subsection*{(a) Mutanten}
+  Siehe *.java-Dateien \texttt{Pow2M1 - Pow2M6}.
+
+  \subsection*{(b) Starker Mutationstest}
+  Die Tabelle~\ref{tab:strong_mutation} zeigt die Ergebnisse des starken Mutationstests.
+  Dabei steht eine \texttt{1} für einen erkannten Mutanten und eine \texttt{0} für einen
+  nicht erkannten Mutanten.
+  \begin{table}[htb!]
+  \centering
+  \caption{Ergebnisse des starken Mutationstests.}
+  \label{tab:strong_mutation}
+  \begin{tabular}[c]{|l|c|c|c|c|c|c|}\hline
+             & M1 & M2 & M3 & M4 & M5 & M6 \\\hline\hline
+  Testfall A & 0  & 1  & 1  & 1  & 0  & 0  \\\hline
+  Testfall B & 0  & 1  & 1  & 1  & 0  & 1  \\\hline
+  Testfall C & 0  & 1  & 0  & 0  & 0  & 0  \\\hline
+  \end{tabular}
+  \end{table}
+  Der \textit{Test B} ist der beste, da dieser 4/6 Mutanten erkennt. \textit{Test C} hingegen erkennt nur
+  1/6 Mutanten und ist damit der schlechteste.
+
+  \subsection*{(c) Score}
+  Für den Score gilt folgende Formel:
+  \begin{equation}
+    Score = \frac{Anzahl erkannter Mutanten}{Anzahl aller Mutanten - Anzahl äquivalenter Mutanten}
+  \end{equation}
+  Dabei ist ein Mutant zum Original äquivalent, wenn keine Testfälle existieren, die den Mutanten
+  als solchen identifizieren können. Ist der Score eines Testfalles \texttt{1}, so nennt man diesen
+  \textit{adäquat}.
+  \begin{align*}
+    \text{Test A:}\,\,\,Score &= \frac{3}{6 - 2} = 0.75\\
+    \text{Test B:}\,\,\,Score &= \frac{4}{6 - 2} = 1.0\\
+    \text{Test C:}\,\,\,Score &= \frac{1}{6 - 2} = 0.25\\
+  \end{align*}
+  Damit ist \textit{B} ein \textit{adäquater} Testfall.
+
+  \subsection*{(d) Beispiel}
+  Als Beispiele dienen die Klassen \texttt{Pow2.java} und \texttt{Pow2M1.java}, da diese äquivalent sind.
+  In \texttt{Pow2M1.java} steht\\
+  ------------------
+  \begin{algorithmic}
+    \STATE i = n
+    \IF{(n $<$ 1)}
+      \STATE i = -n
+    \ENDIF
+  \end{algorithmic}
+  ------------------\\
+  Dies ist äquivalent zu:\\
+  ------------------
+  \begin{algorithmic}
+    \STATE i = n
+    \IF{(n $<$ 0)}
+      \STATE i = -n
+    \ENDIF
+    \IF{(n == 0)}
+      \STATE i = -n
+    \ENDIF
+  \end{algorithmic}
+  ------------------\\
+  Und da $-0 = 0$ sind \texttt{Pow2.java} und \texttt{Pow2M1.java} äquivalent.\\\\
+  Ein weiteres Beispiel könnte ein Programm mit der Zeile\\
+  ------------------
+  \begin{algorithmic}
+    \IF{(a == b)}
+      \STATE do stuff
+    \ENDIF
+  \end{algorithmic}
+  ------------------\\
+  sein. Durch eine erste Mutation könnte dies dann so aussehen:\\
+  ------------------
+  \begin{algorithmic}
+    \IF{(a\,!= b)}
+      \STATE do stuff
+    \ENDIF
+  \end{algorithmic}
+  ------------------\\
+  Und eine zweite Mutation könnte das Folgende verursachen:\\
+  ------------------
+  \begin{algorithmic}
+    \IF{!(a\,!= b)}
+      \STATE do stuff
+    \ENDIF
+  \end{algorithmic}
+  ------------------\\
+  Damit wäre dieser Mutant äquivalent zum Original.
+
+
+  \section*{Aufgabe 11.2 - Stilanalyse}
+
+\end{document}
