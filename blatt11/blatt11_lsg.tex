@@ -140,4 +140,32 @@
     \end{itemize}
     Daher gibt es auch Ausnahmefälle wie oben, denn ``\texttt{return size\,? size : defaultSize;}'' würde sich vielmehr als
     ``\texttt{(return size)\,? size : defaultSize;}'' lesen, was nicht der Semantik (und Syntax) entspricht.
+
+    \section*{Aufgabe 11.3 - Slicing}
+    \subsection*{Kontrollflussgraph}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.8\textwidth]{Aufg3.png}
+    \end{figure}
+
+
+    \subsection*{(a) Forward und Backward-Slicing}
+    \subsubsection*{\texttt{res}}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.25\textwidth]{Aufg3a_res.png}
+    \end{figure}
+
+    \subsubsection*{\texttt{i}}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.25\textwidth]{Aufg3a_i.png}
+    \end{figure}
+
+    \subsection*{(b) Forward-Slicing für \texttt{i}}
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.15\textwidth]{Aufg3b.png}
+    \end{figure}
+
 \end{document}
