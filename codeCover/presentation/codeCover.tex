@@ -25,10 +25,33 @@
       \item Code-Refactoring vereinfachen
       \item einfach zu bedienendes Tool
       \item evtl. IDE-Einbettung
-      \item komfortable Bedienung
     \end{itemize}
   \end{frame}
 
+  \section{Funktionsweise}
+  \subsection{Tests}
+  \begin{frame}\frametitle{Testarten}
+  CodeCover deckt folgende Tests ab:
+    \begin{itemize}
+      \item Bedingungsüberdeckung
+      \item Zweigüberdeckung
+      \item Schleifenüberdeckung
+      \item Anweisungsüberdeckung
+      \item Ternärer Operator Überdeckung
+      \item Synchronisationsüberdeckung
+    \end{itemize}
+  \end{frame}
+
+  \subsection{Technische Integration}
+  \begin{frame}\frametitle{Benutzung}
+    \begin{itemize}
+      \item Kommandozeile (Report erstellen)
+      \item Eclipse (verschiedene Views + Report)
+      \item Testfälle einfach erstellen und zusammenfassen
+      \item Nutzen mit Ant
+      \item Unterstützung von JUnit
+    \end{itemize}
+  \end{frame}
 
   \section{CodeCover allgemein}
   \subsection{Einsatzzweck}
@@ -130,31 +153,6 @@
     \end{columns}
   \end{frame}
 
-  \section{Funktionsweise}
-  \subsection{Tests}
-  \begin{frame}\frametitle{Testarten}
-  CodeCover deckt folgende Tests ab:
-    \begin{itemize}
-      \item Bedingungsüberdeckung
-      \item Zweigüberdeckung
-      \item Schleifenüberdeckung
-      \item Anweisungsüberdeckung
-      \item Ternärer Operator Überdeckung
-      \item Synchronisationsüberdeckung
-    \end{itemize}
-  \end{frame}
-
-  \subsection{Technische Integration}
-  \begin{frame}\frametitle{Benutzung}
-    \begin{itemize}
-      \item Kommandozeile (Report erstellen)
-      \item Eclipse (verschiedene Views + Report)
-      \item Testfälle einfach erstellen und zusammenfassen
-      \item Nutzen mit Ant
-      \item Unterstützung von JUnit
-    \end{itemize}
-  \end{frame}
-
   \begin{frame}\frametitle{Farbkodierung}
     \begin{columns}
       \begin{column}{5cm}
@@ -173,6 +171,7 @@
     \end{columns}
   \end{frame}
 
+
   \section{CodeCover Demo}
   \subsection{Kommandozeile}
   \begin{frame}\frametitle{einfaches Beispiel}
@@ -182,7 +181,7 @@
 	\begin{frame}\frametitle{Instrument}
     \begin{figure}%
 			\includegraphics[width=\columnwidth]{pictures/demo_commandline/01_instrument.png}%
-			\caption{Source Code instrumentieren, d.h. zur Analyse vorbereiten.}%
+			\caption{Source Code instrumentieren, d.h.\ zur Analyse vorbereiten.}%
 			\label{}%
 		\end{figure}
   \end{frame}
@@ -190,7 +189,7 @@
   \begin{frame}\frametitle{Compile}
     \begin{figure}%
 			\includegraphics[width=\columnwidth]{pictures/demo_commandline/02_compile.png}%
-			\caption{Aufbereitete Dateien kompilieren...}%
+			\caption{Aufbereitete Dateien kompilieren\dots}%
 			\label{}%
 		\end{figure}
   \end{frame}
@@ -198,7 +197,7 @@
   \begin{frame}\frametitle{Run}
     \begin{figure}%
 			\includegraphics[width=\columnwidth]{pictures/demo_commandline/03_run.png}%
-			\caption{...und ausführen. Dabei wird eine clf-Datei erstellt, die die Ergebnisse beinhaltet und einen Testfall darstellt.}%
+			\caption{\dots und ausführen. Dabei wird eine clf-Datei erstellt, die die Ergebnisse beinhaltet und einen Testfall darstellt.}%
 			\label{}%
 		\end{figure}
   \end{frame}
