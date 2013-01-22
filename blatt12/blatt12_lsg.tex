@@ -1,0 +1,59 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{a4wide}
+\usepackage{ulem}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{ngerman}
+\usepackage{graphicx}
+\usepackage{epic}
+\usepackage{enumerate}
+\usepackage{tabu}
+\usepackage [latin1]{inputenc}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{listings}
+\usepackage{color}
+\geometry{a4paper,left=15mm,right=25mm,top=20mm,bottom=25mm}
+%\renewcommand{\baselinestretch}{1.5}
+\newcommand{\ol}{\overline}
+\newcommand{\makeline}{\hrule\vspace{5pt}}
+\newcommand{\ip}[2]{\left< #1, #2 \right>}
+
+\title{12. Übungsblatt zu Software Qualität}
+\author{Michel Meyer, Manuel Schwarz}
+
+\begin{document}
+  \maketitle
+
+  \section*{Aufgabe 12.1 - Anomalieanalyse}
+  \subsection*{(a) Java-Beispiele}
+  \subsubsection*{Schnittstellenanomalie}
+    \lstinputlisting[caption={Schnittstellenanomalie} \label{lst:schnittstellenanomalie}, captionpos=t,language=JAVA]
+      {Schnittstellenanomalie.java}
+  Die Schnittstellenanomalie wird vom Compiler erkannt und erzeugt einen Fehler.
+  \vspace{10mm}
+
+  \subsubsection*{Variablendeklaration-/-nutzungsanomalie}
+    \lstinputlisting[caption={Variablendeklarations-/-nutzungsanomalie} \label{lst:variablendeklarationsanomalie}, captionpos=t,language=JAVA]
+      {Variablenanomalie.java}
+  Die Variablendeklarations-/-nutzungsanomalie führt ebenfall zu einem Fehler, der durch den Compiler erkannt wird.
+  \vspace{10mm}
+
+  \subsubsection*{Kontrollflussanomalie}
+    \lstinputlisting[caption={Kontrollflussanomalie} \label{lst:kontrollflussanomalie}, captionpos=t,language=JAVA]
+      {Kontrollflussanomalie.java}
+  Die Kontrollflussanomalie führt ebenfalls (in Java) zu einem Fehler, falls der Code nicht erreichbar ist.
+  \vspace{10mm}
+
+  \subsubsection*{Datenflussanomalie}
+    \lstinputlisting[caption={Datenflussanomalie} \label{lst:datenflussanomalie}, captionpos=t,language=JAVA]
+      {Datenflussanomalie.java}
+  Die Datenflussanomalie kann (in Java) zu einem Fehler führen, wenn eine Variable beispielsweise nicht initialisiert wurde,
+  bevor mit ihr gerechnet wird. Doppelzuweisungen führen dagegen zu keinem Fehler.
+
+\end{document}
