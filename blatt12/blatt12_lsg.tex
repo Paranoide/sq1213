@@ -64,4 +64,14 @@
     \centering
     \includegraphics[width=0.8\textwidth]{berechnungsbaum.pdf}
   \end{figure}
+
+  \subsection*{(b) temporale Formeln}
+  \begin{enumerate}
+    \item Gilt, da $s_0$ direkt $q$ erfüllt.
+    \item Gilt nicht, da z.\,B. $s_0 \rightarrow s_1 \rightarrow s_1 \rightarrow \dots$
+    \item Gilt nicht, da in $s_1$ weder $p$ noch $q$ gilt.
+    \item Gilt, z.\,B. der Pfad $s_0 \rightarrow s_1$. Bis zum ersten Auftreten von $r$ gilt $q$.
+    \item Gilt, z.\,B. gilt $r$ in $s_1$.
+    \item Gilt, da in $s_0$ schon $q$ gilt und in den Folgezuständen (egal welcher Pfad gewählt wird) jeweils $r$ zum erstem mal Auftritt.
+  \end{enumerate}
 \end{document}
